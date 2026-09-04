@@ -1,1 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aussie Explorer | Premium Travel & Hidden Gems</title>
+    <style>
+        /* Modern Design System & CSS Variables */
+        :root {
+            --primary: #FF5A36;
+            --primary-hover: #E04827;
+            --accent: #00F2C3;
+            --bg-dark: #0F172A;
+            --card-bg: #1E293B;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --glass: rgba(30, 41, 59, 0.7);
+            --radius: 16px;
+            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphic Navigation Bar */
+        header {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span { color: var(--primary); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Page System Routing */
+        .page-content {
+            display: none;
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2.5rem 2rem;
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, var(--bg-dark) 100%), 
+                        url('https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            padding: 6rem 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero h1 { font-size: 3.2rem; margin-bottom: 1rem; letter-spacing: -1px; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 650px; margin: 0 auto 2rem; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: var(--text-main);
+            padding: 0.85rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 90, 54, 0.4);
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 90, 54, 0.6);
+        }
+
+        /* Modern Grid & Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-body h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-body p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+            flex: 1;
+        }
+
+        /* Badges & Tags */
+        .badge {
+            background: rgba(0, 242, 195, 0.1);
+            color: var(--accent);
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            width: fit-content;
+        }
+
+        .badge-secret {
+            background: rgba(255, 90, 54, 0.15);
+            color: var(--primary);
+        }
+
+        /* Filter Controls */
+        .filter-container {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1.25rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: var(--text-main);
+            border-color: var(--primary);
+        }
+
+        /* Form Styles */
+        .form-container {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: inherit;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--primary);
+        }
+
+        footer {
+            background: #0B1120;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 1rem; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero { padding: 4rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a href="#home" class="logo" onclick="navigateTo('home')">🦘 Aussie<span>Explorer</span></a>
+            <ul class="nav-links">
+                <li><a id="nav-home" class="active" onclick="navigateTo('home')">Home</a></li>
+                <li><a id="nav-destinations" onclick="navigateTo('destinations')">Destinations</a></li>
+                <li><a id="nav-secrets" onclick="navigateTo('secrets')">Secret Spots 🔒</a></li>
+                <li><a id="nav-itinerary" onclick="navigateTo('itinerary')">Itinerary</a></li>
+                <li><a id="nav-contact" onclick="navigateTo('contact')">Book Trip</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="home" class="page-content active">
+        <section class="hero">
+            <h1>Explore Australia’s Secrets</h1>
+            <p>From iconic landmarks to off-the-beaten-path wilderness—plan your high-end adventure Down Under.</p>
+            <button class="btn" onclick="navigateTo('secrets')">Uncover Secret Locations →</button>
+        </section>
+
+        <h2 style="margin-bottom: 0.5rem;">Famous Highlights</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">World-renowned Australian experiences every traveler must see.</p>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80" alt="Sydney Opera House">
+                </div>
+                <div class="card-body">
+                    <span class="badge">City & Culture</span>
+                    <h3>Sydney Harbour</h3>
+                    <p>Experience world-class dining, coastal walks from Bondi to Coogee, and iconic harbor architecture.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?auto=format&fit=crop&w=600&q=80" alt="Great Barrier Reef">
+                </div>
+                <div class="card-body">
+                    <span class="badge">Marine Life</span>
+                    <h3>Great Barrier Reef</h3>
+                    <p>Dive into the world's largest coral reef system with over 1,500 species of tropical fish.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1529108190281-9a4f620bc2d8?auto=format&fit=crop&w=600&q=80" alt="Uluru">
+                </div>
+                <div class="card-body">
+                    <span class="badge">Outback</span>
+                    <h3>Uluru-Kata Tjuta</h3>
+                    <p>Journey into the sacred Red Centre to explore ancient Indigenous heritage and desert monolithic formations.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="destinations" class="page-content">
+        <h2>Destinations Guide</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Filter top travel destinations by region.</p>
+
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterCards('all')">All Regions</button>
+            <button class="filter-btn" onclick="filterCards('vic')">Victoria</button>
+            <button class="filter-btn" onclick="filterCards('qld')">Queensland</button>
+            <button class="filter-btn" onclick="filterCards('tas')">Tasmania</button>
+        </div>
+
+        <div class="grid">
+            <div class="card region-vic">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1514395462725-fb4566210144?auto=format&fit=crop&w=600&q=80" alt="Melbourne">
+                </div>
+                <div class="card-body">
+                    <span class="badge">Victoria</span>
+                    <h3>Melbourne Laneways</h3>
+                    <p>Known for art-filled alleys, world-famous specialty coffee culture, and thriving live music venues.</p>
+                </div>
+            </div>
+            <div class="card region-qld">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Whitsundays">
+                </div>
+                <div class="card-body">
+                    <span class="badge">Queensland</span>
+                    <h3>Whitsunday Islands</h3>
+                    <p>74 tropical islands nestled in the heart of the Great Barrier Reef featuring pure silica Whitehaven Beach.</p>
+                </div>
+            </div>
+            <div class="card region-tas">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Tasmania">
+                </div>
+                <div class="card-body">
+                    <span class="badge">Tasmania</span>
+                    <h3>Cradle Mountain</h3>
+                    <p>Walk through pristine alpine vegetation, ancient rainforests, and glacial lakes rich with local wildlife.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="secrets" class="page-content">
+        <h2>Hidden Gems & Secret Spots</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Uncrowded wonderlands known mainly to locals and expert explorers.</p>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Horizontal Falls">
+                </div>
+                <div class="card-body">
+                    <span class="badge badge-secret">WA Secret</span>
+                    <h3>Horizontal Falls (Kimberley)</h3>
+                    <p>A natural phenomenon where massive 12-meter tides force seawater rapidly through narrow coastal gorges.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="Lord Howe Island">
+                </div>
+                <div class="card-body">
+                    <span class="badge badge-secret">UNESCO Secret</span>
+                    <h3>Lord Howe Island</h3>
+                    <p>A secluded paradise limiting visitors to just 400 at a time to preserve its volcanic peaks and coral lagoon.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80" alt="Pink Lake">
+                </div>
+                <div class="card-body">
+                    <span class="badge badge-secret">SA Secret</span>
+                    <h3>Lake MacDonnell (Pink Lake)</h3>
+                    <p>A striking natural pink lake separated from a turquoise ocean bay by a single narrow dirt road.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="itinerary" class="page-content">
+        <h2>Curated 10-Day Expeditions</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">A balanced route designed for adventure seekers.</p>
+
+        <div style="background: var(--card-bg); padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(255, 255, 255, 0.08);">
+            <ul style="list-style: none;">
+                <li style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <strong style="color: var(--accent); font-size: 1.1rem;">Days 1–3: Sydney & Secret Secret Cove Coastal Walk</strong>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Explore Sydney Harbour, take the ferry to Manly, and hike hidden trails around Ku-ring-gai Chase National Park.</p>
+                </li>
+                <li style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <strong style="color: var(--accent); font-size: 1.1rem;">Days 4–6: Melbourne & Underground Speakeasies</strong>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Fly to Melbourne, explore secret laneway bars, and drive down the rugged Great Ocean Road.</p>
+                </li>
+                <li>
+                    <strong style="color: var(--accent); font-size: 1.1rem;">Days 7–10: Daintree Rainforest & Outer Reef</strong>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Fly to Tropical North Queensland to explore the oldest living rainforest on earth and swim outer reef spots.</p>
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <main id="contact" class="page-content">
+        <div class="form-container">
+            <h2 style="margin-bottom: 0.5rem;">Plan Your Trip</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Connect with our local destination experts.</p>
+
+            <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required placeholder="Alex Morgan">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required placeholder="alex@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="destination">Interested In</label>
+                    <select id="destination">
+                        <option value="secrets">Secret Locations & Hidden Gems</option>
+                        <option value="sydney">Sydney & Highlights</option>
+                        <option value="reef">Great Barrier Reef & Whitsundays</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Travel Preferences</label>
+                    <textarea id="message" rows="4" placeholder="Tell us about your trip dates and interests..."></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%; justify-content: center;">Send Inquiry →</button>
+            </form>
+            <p id="formResponse" style="display:none; color: var(--accent); font-weight: 600; margin-top: 1.5rem; text-align: center;">
+                ✨ Thank you! Your request has been received. We'll be in touch soon!
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Aussie Explorer Travel Guide. Crafted for Modern Adventurers.</p>
+    </footer>
+
+    <script>
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) selectedPage.classList.add('active');
+
+            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+            const activeNav = document.getElementById(`nav-${pageId}`);
+            if (activeNav) activeNav.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function filterCards(region) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const cards = document.querySelectorAll('#destinations .card');
+            cards.forEach(card => {
+                if (region === 'all' || card.classList.contains(`region-${region}`)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            document.getElementById('formResponse').style.display = 'block';
+            document.getElementById('contactForm').reset();
+        }
+    </script>
+</body>
+</html>
