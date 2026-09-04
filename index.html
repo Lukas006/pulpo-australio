@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -105,13 +105,15 @@
         }
 
         .hero {
-            background: linear-gradient(180deg, rgba(10, 14, 23, 0.3) 0%, var(--bg-dark) 100%), 
-                        url('https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            position: relative;
+            background: linear-gradient(180deg, rgba(10, 14, 23, 0.4) 0%, var(--bg-dark) 100%), 
+                        url('hero.jpg') center/cover no-repeat;
             padding: 5rem 2rem;
             border-radius: var(--radius);
             text-align: center;
             margin-bottom: 3rem;
             border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
         }
 
         .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
@@ -170,6 +172,7 @@
             position: relative;
             overflow: hidden;
             height: 220px;
+            background-color: #1a233a;
         }
 
         .card img {
@@ -216,10 +219,7 @@
             color: #D8B4FE;
         }
 
-        /* Detail Subpages Styling */
-        .detail-header {
-            margin-bottom: 2rem;
-        }
+        .detail-header { margin-bottom: 2rem; }
 
         .detail-hero-img {
             width: 100%;
@@ -228,6 +228,7 @@
             border-radius: var(--radius);
             margin-bottom: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.08);
+            background-color: #1a233a;
         }
 
         .back-btn {
@@ -254,7 +255,6 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Modal Purchase System */
         .modal {
             display: none;
             position: fixed;
@@ -329,7 +329,7 @@
         <div class="grid">
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="Lord Howe">
+                    <img src="lordhowe.jpg" alt="Lord Howe Island">
                 </div>
                 <div class="card-body">
                     <span class="badge badge-secret">NSW Secret</span>
@@ -340,7 +340,7 @@
             </div>
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80" alt="Karijini">
+                    <img src="karijini.jpg" alt="Karijini Gorges">
                 </div>
                 <div class="card-body">
                     <span class="badge badge-secret">WA Secret</span>
@@ -359,7 +359,7 @@
         <div class="grid">
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="Lord Howe">
+                    <img src="lordhowe.jpg" alt="Lord Howe Island">
                 </div>
                 <div class="card-body">
                     <span class="badge badge-secret">NSW Secret</span>
@@ -370,7 +370,7 @@
             </div>
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80" alt="Karijini">
+                    <img src="karijini.jpg" alt="Karijini Gorges">
                 </div>
                 <div class="card-body">
                     <span class="badge badge-secret">WA Secret</span>
@@ -381,7 +381,7 @@
             </div>
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Hinchinbrook">
+                    <img src="hinchinbrook.jpg" alt="Hinchinbrook Island">
                 </div>
                 <div class="card-body">
                     <span class="badge badge-secret">QLD Secret</span>
@@ -400,7 +400,7 @@
         <div class="grid">
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Kimberley">
+                    <img src="kimberley.jpg" alt="The Kimberley Guide">
                 </div>
                 <div class="card-body">
                     <span class="badge">E-Book + GPX</span>
@@ -412,7 +412,7 @@
             </div>
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Tasmania">
+                    <img src="tasmania.jpg" alt="Tasmania Guide">
                 </div>
                 <div class="card-body">
                     <span class="badge">E-Book + GPX</span>
@@ -431,7 +431,7 @@
             <span class="badge badge-secret">NSW Secret Spot</span>
             <h1>Lord Howe Island Secrets</h1>
         </div>
-        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80" class="detail-hero-img" alt="Lord Howe">
+        <img src="lordhowe.jpg" class="detail-hero-img" alt="Lord Howe Island">
         <div class="detail-grid">
             <div class="detail-card">
                 <h3>About This Spot</h3>
@@ -459,7 +459,7 @@
             <span class="badge badge-secret">WA Secret Spot</span>
             <h1>Karijini National Park Gorges</h1>
         </div>
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80" class="detail-hero-img" alt="Karijini">
+        <img src="karijini.jpg" class="detail-hero-img" alt="Karijini Gorges">
         <div class="detail-grid">
             <div class="detail-card">
                 <h3>About This Spot</h3>
@@ -486,7 +486,7 @@
             <span class="badge badge-secret">QLD Secret Spot</span>
             <h1>Hinchinbrook Island</h1>
         </div>
-        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" class="detail-hero-img" alt="Hinchinbrook">
+        <img src="hinchinbrook.jpg" class="detail-hero-img" alt="Hinchinbrook Island">
         <div class="detail-grid">
             <div class="detail-card">
                 <h3>About This Spot</h3>
@@ -508,7 +508,7 @@
             <span class="badge">E-Book & GPX Tracks</span>
             <h1>The Kimberley Unlocked Guide</h1>
         </div>
-        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80" class="detail-hero-img" alt="Kimberley Book">
+        <img src="kimberley.jpg" class="detail-hero-img" alt="The Kimberley Guide">
         <div class="detail-grid">
             <div class="detail-card">
                 <h3>What’s Inside This Guide</h3>
@@ -534,7 +534,7 @@
             <span class="badge">E-Book & GPX Tracks</span>
             <h1>Tasmania Wild & Unfiltered</h1>
         </div>
-        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" class="detail-hero-img" alt="Tasmania Book">
+        <img src="tasmania.jpg" class="detail-hero-img" alt="Tasmania Guide">
         <div class="detail-grid">
             <div class="detail-card">
                 <h3>What’s Inside This Guide</h3>
