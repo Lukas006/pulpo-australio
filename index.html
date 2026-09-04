@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pulpo-australia | Secret Spots & Curated Guides</title>
+    <title>pulpo-australio | Secret Spots & Uncharted Guides</title>
     <style>
-        /* pulpo-australia Design System */
         :root {
-            --primary: #8A2BE2; /* Pulpo Purple */
+            --primary: #8A2BE2;
             --primary-hover: #7B1FA2;
-            --accent: #00E5FF;  /* Electric Cyan */
+            --accent: #00E5FF;
             --bg-dark: #0A0E17;
             --card-bg: #141C2E;
             --text-main: #F1F5F9;
             --text-muted: #94A3B8;
-            --glass: rgba(20, 28, 46, 0.8);
+            --glass: rgba(20, 28, 46, 0.85);
             --radius: 16px;
             --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -32,7 +31,6 @@
             min-height: 100vh;
         }
 
-        /* Glassmorphic Header */
         header {
             background: var(--glass);
             backdrop-filter: blur(12px);
@@ -61,6 +59,7 @@
             align-items: center;
             gap: 0.5rem;
             letter-spacing: -0.5px;
+            cursor: pointer;
         }
 
         .logo span { color: var(--accent); }
@@ -88,7 +87,6 @@
             border: 1px solid rgba(138, 43, 226, 0.4);
         }
 
-        /* Routing System */
         .page-content {
             display: none;
             flex: 1;
@@ -106,18 +104,17 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Hero Section */
         .hero {
             background: linear-gradient(180deg, rgba(10, 14, 23, 0.3) 0%, var(--bg-dark) 100%), 
                         url('https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
-            padding: 6rem 2rem;
+            padding: 5rem 2rem;
             border-radius: var(--radius);
             text-align: center;
             margin-bottom: 3rem;
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .hero h1 { font-size: 3.2rem; margin-bottom: 1rem; letter-spacing: -1px; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
         .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 650px; margin: 0 auto 2rem; }
 
         .btn {
@@ -126,7 +123,7 @@
             gap: 0.5rem;
             background: var(--primary);
             color: var(--text-main);
-            padding: 0.85rem 2rem;
+            padding: 0.85rem 1.75rem;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 700;
@@ -136,11 +133,7 @@
             box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
         }
 
-        .btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.6);
-        }
+        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
 
         .btn-accent {
             background: var(--accent);
@@ -148,12 +141,8 @@
             box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
         }
 
-        .btn-accent:hover {
-            background: #00B8D4;
-            box-shadow: 0 6px 20px rgba(0, 229, 255, 0.5);
-        }
+        .btn-accent:hover { background: #00B8D4; }
 
-        /* Cards Layout */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -209,7 +198,6 @@
             margin-bottom: 1rem;
         }
 
-        /* Badges */
         .badge {
             background: rgba(0, 229, 255, 0.1);
             color: var(--accent);
@@ -218,7 +206,6 @@
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             display: inline-block;
             margin-bottom: 0.75rem;
             width: fit-content;
@@ -229,7 +216,45 @@
             color: #D8B4FE;
         }
 
-        /* Modal Preview */
+        /* Detail Subpages Styling */
+        .detail-header {
+            margin-bottom: 2rem;
+        }
+
+        .detail-hero-img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .detail-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Modal Purchase System */
         .modal {
             display: none;
             position: fixed;
@@ -249,7 +274,6 @@
             max-width: 550px;
             width: 100%;
             border: 1px solid rgba(0, 229, 255, 0.2);
-            box-shadow: var(--shadow);
             position: relative;
         }
 
@@ -274,6 +298,7 @@
         @media (max-width: 768px) {
             .navbar { flex-direction: column; gap: 1rem; }
             .hero h1 { font-size: 2.2rem; }
+            .detail-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -281,12 +306,11 @@
 
     <header>
         <nav class="navbar">
-            <a href="#home" class="logo" onclick="navigateTo('home')">🐙 pulpo-<span>australia</span></a>
+            <a class="logo" onclick="navigateTo('home')">🐙 pulpo-<span>australio</span></a>
             <ul class="nav-links">
                 <li><a id="nav-home" class="active" onclick="navigateTo('home')">Home</a></li>
                 <li><a id="nav-secrets" onclick="navigateTo('secrets')">Secret Spots 🔒</a></li>
                 <li><a id="nav-shop" onclick="navigateTo('shop')">Travel Guides 📚</a></li>
-                <li><a id="nav-itinerary" onclick="navigateTo('itinerary')">Itineraries</a></li>
             </ul>
         </nav>
     </header>
@@ -294,176 +318,257 @@
     <main id="home" class="page-content active">
         <section class="hero">
             <h1>Uncharted Australia Awaits</h1>
-            <p>Curated secret spots, off-grid adventure itineraries, and downloadable travel guides tailored by local experts.</p>
+            <p>Curated secret locations, off-grid adventure itineraries, and downloadable travel guides tailored by local experts.</p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                 <button class="btn" onclick="navigateTo('secrets')">Explore Secret Spots</button>
                 <button class="btn btn-accent" onclick="navigateTo('shop')">Shop Digital Guides</button>
             </div>
         </section>
 
-        <h2>Featured Travel Guides</h2>
-        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Comprehensive offline PDFs with interactive maps and local contacts.</p>
-
+        <h2>Popular Secret Locations</h2>
         <div class="grid">
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Kimberley Guide">
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="Lord Howe">
                 </div>
                 <div class="card-body">
-                    <span class="badge">E-Book Guide</span>
-                    <h3>The Kimberley Unlocked</h3>
-                    <p>4wd tracks, hidden waterholes, and seasonal tide calendars for Horizontal Falls.</p>
-                    <div class="price-tag">$24.99 AUD</div>
-                    <button class="btn btn-accent" onclick="openModal('The Kimberley Unlocked', '$24.99 AUD')">Buy Guide</button>
+                    <span class="badge badge-secret">NSW Secret</span>
+                    <h3>Lord Howe Island</h3>
+                    <p>A secluded volcanic paradise with restricted visitor permits.</p>
+                    <button class="btn btn-accent" onclick="navigateTo('spot-lordhowe')">Explore Spot →</button>
                 </div>
             </div>
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Tasmania Guide">
+                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80" alt="Karijini">
                 </div>
                 <div class="card-body">
-                    <span class="badge">E-Book Guide</span>
-                    <h3>Tasmania Wild & Unfiltered</h3>
-                    <p>Secret hikes in Bay of Fires, secret wild penguin spots, and boutique distillery maps.</p>
-                    <div class="price-tag">$19.99 AUD</div>
-                    <button class="btn btn-accent" onclick="openModal('Tasmania Wild & Unfiltered', '$19.99 AUD')">Buy Guide</button>
+                    <span class="badge badge-secret">WA Secret</span>
+                    <h3>Karijini Gorges</h3>
+                    <p>Ancient chasms, natural emerald pools, and hidden swimming holes.</p>
+                    <button class="btn btn-accent" onclick="navigateTo('spot-karijini')">Explore Spot →</button>
                 </div>
             </div>
         </div>
     </main>
 
     <main id="secrets" class="page-content">
-        <h2>Secret Spots & Local Gems</h2>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">Hidden gems off the typical tourist trail.</p>
+        <h2>Secret Spots Directory</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Click any spot below to access its individual guide page.</p>
 
         <div class="grid">
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="Lord Howe Island">
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="Lord Howe">
                 </div>
                 <div class="card-body">
                     <span class="badge badge-secret">NSW Secret</span>
                     <h3>Lord Howe Island</h3>
-                    <p>Limited to 400 visitors at a time. Crystal clear lagoons and endemic wildlife.</p>
+                    <p>A secluded volcanic paradise with restricted visitor permits.</p>
+                    <button class="btn btn-accent" onclick="navigateTo('spot-lordhowe')">Read Full Guide →</button>
                 </div>
             </div>
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80" alt="Karijini Gorge">
+                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80" alt="Karijini">
                 </div>
                 <div class="card-body">
                     <span class="badge badge-secret">WA Secret</span>
                     <h3>Karijini Gorges</h3>
-                    <p>Ancient red-rock chasms, natural emerald pools, and subterranean swimming holes.</p>
+                    <p>Ancient chasms, natural emerald pools, and hidden swimming holes.</p>
+                    <button class="btn btn-accent" onclick="navigateTo('spot-karijini')">Read Full Guide →</button>
                 </div>
             </div>
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Hinchinbrook Island">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Hinchinbrook">
                 </div>
                 <div class="card-body">
                     <span class="badge badge-secret">QLD Secret</span>
                     <h3>Hinchinbrook Island</h3>
-                    <p>An uninhabited island national park featuring the wilderness Thorsborne Trail and Zoe Falls.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1514395462725-fb4566210144?auto=format&fit=crop&w=600&q=80" alt="Noosa Everglades">
-                </div>
-                <div class="card-body">
-                    <span class="badge badge-secret">QLD Secret</span>
-                    <h3>The Noosa Everglades</h3>
-                    <p>One of only two everglades systems on Earth—paddle through pure tea-tree water reflections.</p>
+                    <p>Uninhabited island national park with rugged wilderness trails.</p>
+                    <button class="btn btn-accent" onclick="navigateTo('spot-hinchinbrook')">Read Full Guide →</button>
                 </div>
             </div>
         </div>
     </main>
 
     <main id="shop" class="page-content">
-        <h2>pulpo-australia Guidebook Shop</h2>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">Download expert digital PDF itineraries with GPX trail maps included.</p>
+        <h2>pulpo-australio Bookshop</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Select a guidebook to view chapter breakdowns and offline access details.</p>
 
         <div class="grid">
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Kimberley Guide">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Kimberley">
                 </div>
                 <div class="card-body">
-                    <span class="badge">Digital PDF + GPX</span>
+                    <span class="badge">E-Book + GPX</span>
                     <h3>The Kimberley Unlocked</h3>
-                    <p>Includes off-road driving advice, secret campsite coordinates, and indigenous culture etiquette.</p>
+                    <p>4WD trail maps, secret tidal waterholes, and seasonal itineraries.</p>
                     <div class="price-tag">$24.99 AUD</div>
-                    <button class="btn btn-accent" onclick="openModal('The Kimberley Unlocked', '$24.99 AUD')">Buy Guide</button>
+                    <button class="btn" onclick="navigateTo('book-kimberley')">Book Details & Preview →</button>
                 </div>
             </div>
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Tasmania Guide">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Tasmania">
                 </div>
                 <div class="card-body">
-                    <span class="badge">Digital PDF + GPX</span>
+                    <span class="badge">E-Book + GPX</span>
                     <h3>Tasmania Wild & Unfiltered</h3>
-                    <p>Complete 14-day loop covering secret beaches, Cradle Mountain bypass routes, and local foodie hubs.</p>
+                    <p>Comprehensive 14-day loop covering secret beaches and alpine walks.</p>
                     <div class="price-tag">$19.99 AUD</div>
-                    <button class="btn btn-accent" onclick="openModal('Tasmania Wild & Unfiltered', '$19.99 AUD')">Buy Guide</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1529108190281-9a4f620bc2d8?auto=format&fit=crop&w=600&q=80" alt="Outback Guide">
-                </div>
-                <div class="card-body">
-                    <span class="badge">Digital PDF + GPX</span>
-                    <h3>Red Centre Secret Trails</h3>
-                    <p>Comprehensive guide to the Larapinta Trail, Kings Canyon rim walks, and stargazing lookouts.</p>
-                    <div class="price-tag">$21.99 AUD</div>
-                    <button class="btn btn-accent" onclick="openModal('Red Centre Secret Trails', '$21.99 AUD')">Buy Guide</button>
+                    <button class="btn" onclick="navigateTo('book-tasmania')">Book Details & Preview →</button>
                 </div>
             </div>
         </div>
     </main>
 
-    <main id="itinerary" class="page-content">
-        <h2>Self-Guided Itinerary Blueprints</h2>
-        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Sample routes provided by the pulpo-australia team.</p>
+    <main id="spot-lordhowe" class="page-content">
+        <a class="back-btn" onclick="navigateTo('secrets')">← Back to Secret Spots</a>
+        <div class="detail-header">
+            <span class="badge badge-secret">NSW Secret Spot</span>
+            <h1>Lord Howe Island Secrets</h1>
+        </div>
+        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80" class="detail-hero-img" alt="Lord Howe">
+        <div class="detail-grid">
+            <div class="detail-card">
+                <h3>About This Spot</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                    Situated in the Tasman Sea, Lord Howe limits tourist numbers to just 400 at any time. It boasts world-class snorkeling around the southernmost coral reef on Earth.
+                </p>
+                <h3>Pulpo Insider Tips</h3>
+                <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
+                    <li>Hike Mt. Gower with a mandatory local guide to see ancient cloud forests.</li>
+                    <li>Hand-feed wild kingfish right at Ned's Beach at low tide.</li>
+                </ul>
+            </div>
+            <div class="detail-card">
+                <h3>Location Specs</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;"><strong>Best Season:</strong> Sep – May</p>
+                <p style="color: var(--text-muted);"><strong>Permit Required:</strong> Yes (Flight capped)</p>
+                <p style="color: var(--text-muted);"><strong>Cell Service:</strong> Minimal / No 5G</p>
+            </div>
+        </div>
+    </main>
 
-        <div style="background: var(--card-bg); padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(255, 255, 255, 0.08);">
-            <ul style="list-style: none;">
-                <li style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                    <strong style="color: var(--accent); font-size: 1.1rem;">10-Day East Coast Secret Beaches Route</strong>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Sydney → Crowdy Bay → Yamba surf villages → Noosa Everglades canoeing.</p>
-                </li>
-                <li>
-                    <strong style="color: var(--accent); font-size: 1.1rem;">12-Day West Coast Off-Grid Odyssey</strong>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Perth → Kalbarri Pink Lake → Ningaloo Reef whale shark diving → Karijini Gorges.</p>
-                </li>
-            </ul>
+    <main id="spot-karijini" class="page-content">
+        <a class="back-btn" onclick="navigateTo('secrets')">← Back to Secret Spots</a>
+        <div class="detail-header">
+            <span class="badge badge-secret">WA Secret Spot</span>
+            <h1>Karijini National Park Gorges</h1>
+        </div>
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80" class="detail-hero-img" alt="Karijini">
+        <div class="detail-grid">
+            <div class="detail-card">
+                <h3>About This Spot</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                    2.5 billion years in the making, Karijini offers spider-walks through layered red gorges leading to crystal-clear natural swimming pools.
+                </p>
+                <h3>Pulpo Insider Tips</h3>
+                <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
+                    <li>Visit Hancock Gorge early in the morning to beat tour groups.</li>
+                    <li>Bring sturdy aquatic shoes for slippery canyon walks.</li>
+                </ul>
+            </div>
+            <div class="detail-card">
+                <h3>Location Specs</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;"><strong>Best Season:</strong> May – Sep</p>
+                <p style="color: var(--text-muted);"><strong>Vehicle Access:</strong> 4WD Recommended</p>
+            </div>
+        </div>
+    </main>
+
+    <main id="spot-hinchinbrook" class="page-content">
+        <a class="back-btn" onclick="navigateTo('secrets')">← Back to Secret Spots</a>
+        <div class="detail-header">
+            <span class="badge badge-secret">QLD Secret Spot</span>
+            <h1>Hinchinbrook Island</h1>
+        </div>
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" class="detail-hero-img" alt="Hinchinbrook">
+        <div class="detail-grid">
+            <div class="detail-card">
+                <h3>About This Spot</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                    An entire uninhabited island designated as a national park. Home to Nina Peak and the iconic cliffside infinity pool at Zoe Falls.
+                </p>
+            </div>
+            <div class="detail-card">
+                <h3>Location Specs</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;"><strong>Best Season:</strong> Apr – Oct</p>
+                <p style="color: var(--text-muted);"><strong>Hiking Permit:</strong> Required</p>
+            </div>
+        </div>
+    </main>
+
+    <main id="book-kimberley" class="page-content">
+        <a class="back-btn" onclick="navigateTo('shop')">← Back to Bookshop</a>
+        <div class="detail-header">
+            <span class="badge">E-Book & GPX Tracks</span>
+            <h1>The Kimberley Unlocked Guide</h1>
+        </div>
+        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80" class="detail-hero-img" alt="Kimberley Book">
+        <div class="detail-grid">
+            <div class="detail-card">
+                <h3>What’s Inside This Guide</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                    A 120-page comprehensive digital manual detailing the Gibb River Road, secret waterhole coordinates, and local station contact lists.
+                </p>
+                <h3>Included Digital Files</h3>
+                <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
+                    <li>High-resolution offline PDF guide book.</li>
+                    <li>GPX files compatible with Gaia GPS and Avenza Maps.</li>
+                </ul>
+            </div>
+            <div class="detail-card">
+                <div class="price-tag">$24.99 AUD</div>
+                <button class="btn btn-accent" style="width: 100%; justify-content: center;" onclick="openModal('The Kimberley Unlocked', '$24.99 AUD')">Instant Download Buy</button>
+            </div>
+        </div>
+    </main>
+
+    <main id="book-tasmania" class="page-content">
+        <a class="back-btn" onclick="navigateTo('shop')">← Back to Bookshop</a>
+        <div class="detail-header">
+            <span class="badge">E-Book & GPX Tracks</span>
+            <h1>Tasmania Wild & Unfiltered</h1>
+        </div>
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" class="detail-hero-img" alt="Tasmania Book">
+        <div class="detail-grid">
+            <div class="detail-card">
+                <h3>What’s Inside This Guide</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                    Uncover off-grid boutique stays, secret coastal penguin rookeries, and bypass routes for Cradle Mountain.
+                </p>
+            </div>
+            <div class="detail-card">
+                <div class="price-tag">$19.99 AUD</div>
+                <button class="btn btn-accent" style="width: 100%; justify-content: center;" onclick="openModal('Tasmania Wild & Unfiltered', '$19.99 AUD')">Instant Download Buy</button>
+            </div>
         </div>
     </main>
 
     <div id="checkoutModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3 id="modalTitle" style="margin-bottom: 0.5rem;">Guide Name</h3>
+            <h3 id="modalTitle" style="margin-bottom: 0.5rem;">Guide Title</h3>
             <p id="modalPrice" class="price-tag">$0.00 AUD</p>
-            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Includes instant PDF download link and offline mobile access.</p>
-            
             <form onsubmit="handlePurchase(event)">
                 <div style="margin-bottom: 1rem;">
-                    <label style="display:block; margin-bottom: 0.3rem; font-weight:600;">Email Address</label>
+                    <label style="display:block; margin-bottom: 0.3rem; font-weight:600;">Email Address for Delivery</label>
                     <input type="email" required placeholder="yourname@domain.com" style="width:100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: #0A0E17; color: #fff;">
                 </div>
-                <button type="submit" class="btn btn-accent" style="width: 100%; justify-content: center;">Complete Demo Checkout →</button>
+                <button type="submit" class="btn btn-accent" style="width: 100%; justify-content: center;">Complete Checkout →</button>
             </form>
             <p id="purchaseSuccess" style="display:none; color: var(--accent); margin-top: 1rem; text-align: center; font-weight: 600;">
-                🎉 Thank you! Your guide link has been sent to your email.
+                🎉 Thank you! Your guide download link has been emailed.
             </p>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 pulpo-australia. Independent Travel Guides & Uncharted Expeditions.</p>
+        <p>&copy; 2026 pulpo-australio. All rights reserved.</p>
     </footer>
 
     <script>
