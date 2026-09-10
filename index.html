@@ -1,718 +1,168 @@
+```html
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pulpo-australio | Secret Spots & Uncharted Guides</title>
+    <title>Website Selector</title>
+
     <style>
-
-        .map-container {
-    width: 100%;
-    height: 320px;
-    border-radius: calc(var(--radius) - 4px);
-    border: 1px solid rgba(0, 229, 255, 0.2);
-    overflow: hidden;
-    margin-top: 1rem;
-    position: relative;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    background: #0A0E17;
-}
-
-/* Custom dark mode filter & glow effect for embedded maps */
-.map-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(90%);
-    transition: var(--transition);
-}
-
-.map-container:hover iframe {
-    filter: invert(90%) hue-rotate(180deg) brightness(105%) contrast(100%);
-}
-        
-        :root {
-            --primary: #8A2BE2;
-            --primary-hover: #7B1FA2;
-            --accent: #00E5FF;
-            --bg-dark: #0A0E17;
-            --card-bg: #141C2E;
-            --text-main: #F1F5F9;
-            --text-muted: #94A3B8;
-            --glass: rgba(20, 28, 46, 0.85);
-            --radius: 16px;
-            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
             min-height: 100vh;
-        }
-
-        header {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .navbar {
-            max-width: 1200px;
-            margin: 0 auto;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.2rem 2rem;
-        }
-
-        .logo {
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: var(--text-main);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            letter-spacing: -0.5px;
-            cursor: pointer;
-        }
-
-        .logo span { color: var(--accent); }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 0.75rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 600;
-            padding: 0.6rem 1rem;
-            border-radius: 30px;
-            transition: var(--transition);
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--text-main);
-            background: rgba(138, 43, 226, 0.2);
-            border: 1px solid rgba(138, 43, 226, 0.4);
-        }
-
-        .page-content {
-            display: none;
-            flex: 1;
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 2.5rem 2rem;
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        .page-content.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero {
-            position: relative;
-            background: linear-gradient(180deg, rgba(10, 14, 23, 0.4) 0%, var(--bg-dark) 100%), 
-                        url('hero.jpg') center/cover no-repeat;
-            padding: 5rem 2rem;
-            border-radius: var(--radius);
-            text-align: center;
-            margin-bottom: 3rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            overflow: hidden;
-        }
-
-        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 650px; margin: 0 auto 2rem; }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--primary);
-            color: var(--text-main);
-            padding: 0.85rem 1.75rem;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
-        }
-
-        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
-
-        .btn-accent {
-            background: var(--accent);
-            color: #0A0E17;
-            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
-        }
-
-        .btn-accent:hover { background: #00B8D4; }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(0, 229, 255, 0.3);
-        }
-
-        .card-img-wrapper {
-            position: relative;
-            overflow: hidden;
-            height: 220px;
-            background-color: #1a233a;
-        }
-
-        .card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .card:hover img { transform: scale(1.05); }
-
-        .card-body {
-            padding: 1.75rem;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .card-body h3 { font-size: 1.35rem; margin-bottom: 0.5rem; }
-        .card-body p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem; flex: 1; }
-
-        .price-tag {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-
-        .badge {
-            background: rgba(0, 229, 255, 0.1);
-            color: var(--accent);
-            padding: 0.3rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            display: inline-block;
-            margin-bottom: 0.75rem;
-            width: fit-content;
-        }
-
-        .badge-secret {
-            background: rgba(138, 43, 226, 0.2);
-            color: #D8B4FE;
-        }
-
-        .detail-header { margin-bottom: 2rem; }
-
-        .detail-hero-img {
-            width: 100%;
-            height: 380px;
-            object-fit: cover;
-            border-radius: var(--radius);
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background-color: #1a233a;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 1.5rem;
-        }
-
-        .detail-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-        }
-
-        .detail-card {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 2rem;
-        }
-
-        .map-container {
-            width: 100%;
-            height: 300px;
-            border-radius: calc(var(--radius) - 4px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            margin-top: 1rem;
-        }
-
-        .map-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 14, 23, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
             justify-content: center;
             align-items: center;
-            padding: 1.5rem;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #111827, #1e3a8a);
+            color: white;
         }
 
-        .modal-content {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 2.5rem;
-            max-width: 550px;
-            width: 100%;
-            border: 1px solid rgba(0, 229, 255, 0.2);
-            position: relative;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 1rem; right: 1.5rem;
-            font-size: 1.8rem;
-            color: var(--text-muted);
-            cursor: pointer;
-        }
-
-        footer {
-            background: #06090F;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
+        .container {
+            width: 90%;
+            max-width: 450px;
+            padding: 40px;
             text-align: center;
-            padding: 2rem;
-            margin-top: auto;
-            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
         }
 
-        @media (max-width: 768px) {
-            .navbar { flex-direction: column; gap: 1rem; }
-            .hero h1 { font-size: 2.2rem; }
-            .detail-grid { grid-template-columns: 1fr; }
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #d1d5db;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+
+        .unlock {
+            background: #2563eb;
+            color: white;
+        }
+
+        .unlock:hover {
+            background: #1d4ed8;
+        }
+
+        .website {
+            background: white;
+            color: #111827;
+        }
+
+        .website:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+        }
+
+        #selector {
+            display: none;
+        }
+
+        #error {
+            color: #fca5a5;
+            margin-top: 10px;
+            display: none;
         }
     </style>
 </head>
+
 <body>
 
-    <header>
-        <nav class="navbar">
-            <a class="logo" onclick="navigateTo('home')">🐙 pulpo-<span>australio</span></a>
-            <ul class="nav-links">
-                <li><a id="nav-home" class="active" onclick="navigateTo('home')">Home</a></li>
-                <li><a id="nav-secrets" onclick="navigateTo('secrets')">Secret Spots 🔒</a></li>
-                <li><a id="nav-shop" onclick="navigateTo('shop')">Travel Guides 📚</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="container">
 
-    <!-- Page 1: Home -->
-    <main id="home" class="page-content active">
-        <section class="hero">
-            <h1>Uncharted Australia Awaits</h1>
-            <p>Curated secret locations, off-grid adventure itineraries, and downloadable travel guides tailored by local experts.</p>
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <button class="btn" onclick="navigateTo('secrets')">Explore Secret Spots</button>
-                <button class="btn btn-accent" onclick="navigateTo('shop')">Shop Digital Guides</button>
-            </div>
-        </section>
+        <!-- LOGIN -->
+        <div id="login">
+            <h1>🔐 Enter Code</h1>
+            <p>Enter your access code to continue.</p>
 
-        <h2>Popular Secret Locations</h2>
-        <div class="grid">
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img src="lordhowe.jpg" alt="Lord Howe Island">
-                </div>
-                <div class="card-body">
-                    <span class="badge badge-secret">NSW Secret</span>
-                    <h3>Lord Howe Island</h3>
-                    <p>A secluded volcanic paradise with restricted visitor permits.</p>
-                    <button class="btn btn-accent" onclick="navigateTo('spot-lordhowe')">Explore Spot →</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img src="karijini.jpg" alt="Karijini Gorges">
-                </div>
-                <div class="card-body">
-                    <span class="badge badge-secret">WA Secret</span>
-                    <h3>Karijini Gorges</h3>
-                    <p>Ancient chasms, natural emerald pools, and hidden swimming holes.</p>
-                    <button class="btn btn-accent" onclick="navigateTo('spot-karijini')">Explore Spot →</button>
-                </div>
-            </div>
-        </div>
-    </main>
+            <input
+                type="password"
+                id="code"
+                placeholder="Enter code"
+                maxlength="4"
+                onkeydown="if(event.key === 'Enter') checkCode()"
+            >
 
-    <!-- Page 2: Secret Spots Hub -->
-    <main id="secrets" class="page-content">
-        <h2>Secret Spots Directory</h2>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">Click any spot below to access its individual guide page and coordinates.</p>
+            <button class="unlock" onclick="checkCode()">
+                Unlock
+            </button>
 
-        <div class="grid">
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img src="lordhowe.jpg" alt="Lord Howe Island">
-                </div>
-                <div class="card-body">
-                    <span class="badge badge-secret">NSW Secret</span>
-                    <h3>Lord Howe Island</h3>
-                    <p>A secluded volcanic paradise with restricted visitor permits.</p>
-                    <button class="btn btn-accent" onclick="navigateTo('spot-lordhowe')">Read Full Guide →</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img src="karijini.jpg" alt="Karijini Gorges">
-                </div>
-                <div class="card-body">
-                    <span class="badge badge-secret">WA Secret</span>
-                    <h3>Karijini Gorges</h3>
-                    <p>Ancient chasms, natural emerald pools, and hidden swimming holes.</p>
-                    <button class="btn btn-accent" onclick="navigateTo('spot-karijini')">Read Full Guide →</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img src="hinchinbrook.jpg" alt="Hinchinbrook Island">
-                </div>
-                <div class="card-body">
-                    <span class="badge badge-secret">QLD Secret</span>
-                    <h3>Hinchinbrook Island</h3>
-                    <p>Uninhabited island national park with rugged wilderness trails.</p>
-                    <button class="btn btn-accent" onclick="navigateTo('spot-hinchinbrook')">Read Full Guide →</button>
-                </div>
+            <div id="error">
+                Incorrect code. Please try again.
             </div>
         </div>
-    </main>
 
-    <!-- Page 3: Shop Hub -->
-    <main id="shop" class="page-content">
-        <h2>pulpo-australio Bookshop</h2>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">Select a guidebook to view region maps, chapter breakdowns, and offline access details.</p>
+        <!-- WEBSITE SELECTOR -->
+        <div id="selector">
+            <h1>Choose Website</h1>
+            <p>Select which website you want to open.</p>
 
-        <div class="grid">
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img src="kimberley.jpg" alt="The Kimberley Guide">
-                </div>
-                <div class="card-body">
-                    <span class="badge">E-Book + GPX</span>
-                    <h3>The Kimberley Unlocked</h3>
-                    <p>4WD trail maps, secret tidal waterholes, and seasonal itineraries.</p>
-                    <div class="price-tag">$24.99 AUD</div>
-                    <button class="btn" onclick="navigateTo('book-kimberley')">Book Details & Preview →</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img src="tasmania.jpg" alt="Tasmania Guide">
-                </div>
-                <div class="card-body">
-                    <span class="badge">E-Book + GPX</span>
-                    <h3>Tasmania Wild & Unfiltered</h3>
-                    <p>Comprehensive 14-day loop covering secret beaches and alpine walks.</p>
-                    <div class="price-tag">$19.99 AUD</div>
-                    <button class="btn" onclick="navigateTo('book-tasmania')">Book Details & Preview →</button>
-                </div>
-            </div>
-        </div>
-    </main>
+            <!-- CHANGE THESE FILENAMES IF NEEDED -->
+            <button class="website" onclick="openWebsite('website1.html')">
+                🌐 Website 1
+            </button>
 
-    <!-- SUBPAGE: LORD HOWE ISLAND -->
-    <main id="spot-lordhowe" class="page-content">
-        <a class="back-btn" onclick="navigateTo('secrets')">← Back to Secret Spots</a>
-        <div class="detail-header">
-            <span class="badge badge-secret">NSW Secret Spot</span>
-            <h1>Lord Howe Island Secrets</h1>
+            <button class="website" onclick="openWebsite('website2.html')">
+                🌐 Website 2
+            </button>
         </div>
-        <img src="lordhowe.jpg" class="detail-hero-img" alt="Lord Howe Island">
-        <div class="detail-grid">
-            <div>
-                <div class="detail-card">
-                    <h3>About This Spot</h3>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
-                        Situated in the Tasman Sea, Lord Howe limits tourist numbers to just 400 at any time. It boasts world-class snorkeling around the southernmost coral reef on Earth.
-                    </p>
-                    <h3>Pulpo Insider Tips</h3>
-                    <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
-                        <li>Hike Mt. Gower with a mandatory local guide to see ancient cloud forests.</li>
-                        <li>Hand-feed wild kingfish right at Ned's Beach at low tide.</li>
-                    </ul>
-                </div>
-                <div class="detail-card">
-                    <h3>Location Map</h3>
-                    <div class="map-container">
-                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=159.0400%2C-31.5800%2C159.1200%2C-31.5000&amp;layer=mapnik&amp;marker=-31.5500%2C159.0833"></iframe>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="detail-card">
-                    <h3>Location Specs</h3>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem;"><strong>Best Season:</strong> Sep – May</p>
-                    <p style="color: var(--text-muted);"><strong>Permit Required:</strong> Yes (Flight capped)</p>
-                    <p style="color: var(--text-muted);"><strong>Cell Service:</strong> Minimal / No 5G</p>
-                    <p style="color: var(--text-muted);"><strong>Coordinates:</strong> 31.5500° S, 159.0833° E</p>
-                </div>
-            </div>
-        </div>
-    </main>
 
-    <!-- SUBPAGE: KARIJINI -->
-    <main id="spot-karijini" class="page-content">
-        <a class="back-btn" onclick="navigateTo('secrets')">← Back to Secret Spots</a>
-        <div class="detail-header">
-            <span class="badge badge-secret">WA Secret Spot</span>
-            <h1>Karijini National Park Gorges</h1>
-        </div>
-        <img src="karijini.jpg" class="detail-hero-img" alt="Karijini Gorges">
-        <div class="detail-grid">
-            <div>
-                <div class="detail-card">
-                    <h3>About This Spot</h3>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
-                        2.5 billion years in the making, Karijini offers spider-walks through layered red gorges leading to crystal-clear natural swimming pools.
-                    </p>
-                    <h3>Pulpo Insider Tips</h3>
-                    <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
-                        <li>Visit Hancock Gorge early in the morning to beat tour groups.</li>
-                        <li>Bring sturdy aquatic shoes for slippery canyon walks.</li>
-                    </ul>
-                </div>
-                <div class="detail-card">
-                    <h3>Location Map</h3>
-                    <div class="map-container">
-                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=118.2000%2C-22.6000%2C118.7000%2C-22.2000&amp;layer=mapnik&amp;marker=-22.4869%2C118.4673"></iframe>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="detail-card">
-                    <h3>Location Specs</h3>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem;"><strong>Best Season:</strong> May – Sep</p>
-                    <p style="color: var(--text-muted);"><strong>Vehicle Access:</strong> 4WD Recommended</p>
-                    <p style="color: var(--text-muted);"><strong>Coordinates:</strong> 22.4869° S, 118.4673° E</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- SUBPAGE: HINCHINBROOK -->
-    <main id="spot-hinchinbrook" class="page-content">
-        <a class="back-btn" onclick="navigateTo('secrets')">← Back to Secret Spots</a>
-        <div class="detail-header">
-            <span class="badge badge-secret">QLD Secret Spot</span>
-            <h1>Hinchinbrook Island</h1>
-        </div>
-        <img src="hinchinbrook.jpg" class="detail-hero-img" alt="Hinchinbrook Island">
-        <div class="detail-grid">
-            <div>
-                <div class="detail-card">
-                    <h3>About This Spot</h3>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
-                        An entire uninhabited island designated as a national park. Home to Nina Peak and the iconic cliffside infinity pool at Zoe Falls.
-                    </p>
-                    <h3>Pulpo Insider Tips</h3>
-                    <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
-                        <li>Book Thorsborne Trail camping permits up to 6 months in advance.</li>
-                        <li>Always carry a crocodile safety strategy near tidal creeks.</li>
-                    </ul>
-                </div>
-                <div class="detail-card">
-                    <h3>Location Map</h3>
-                    <div class="map-container">
-                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=146.0500%2C-18.5000%2C146.4000%2C-18.1500&amp;layer=mapnik&amp;marker=-18.3620%2C146.2360"></iframe>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="detail-card">
-                    <h3>Location Specs</h3>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem;"><strong>Best Season:</strong> Apr – Oct</p>
-                    <p style="color: var(--text-muted);"><strong>Hiking Permit:</strong> Required</p>
-                    <p style="color: var(--text-muted);"><strong>Coordinates:</strong> 18.3620° S, 146.2360° E</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- SUBPAGE: BOOK - KIMBERLEY -->
-    <main id="book-kimberley" class="page-content">
-        <a class="back-btn" onclick="navigateTo('shop')">← Back to Bookshop</a>
-        <div class="detail-header">
-            <span class="badge">E-Book & GPX Tracks</span>
-            <h1>The Kimberley Unlocked Guide</h1>
-        </div>
-        <img src="kimberley.jpg" class="detail-hero-img" alt="The Kimberley Guide">
-        <div class="detail-grid">
-            <div>
-                <div class="detail-card">
-                    <h3>What’s Inside This Guide</h3>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
-                        A 120-page comprehensive digital manual detailing the Gibb River Road, secret waterhole coordinates, and local station contact lists.
-                    </p>
-                    <h3>Included Digital Files</h3>
-                    <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
-                        <li>High-resolution offline PDF guide book.</li>
-                        <li>GPX files compatible with Gaia GPS and Avenza Maps.</li>
-                    </ul>
-                </div>
-                <div class="detail-card">
-                    <h3>Region Coverage Map</h3>
-                    <div class="map-container">
-                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=123.0000%2C-19.0000%2C129.0000%2C-13.5000&amp;layer=mapnik&amp;marker=-17.4914%2C124.5326"></iframe>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="detail-card">
-                    <div class="price-tag">$24.99 AUD</div>
-                    <button class="btn btn-accent" style="width: 100%; justify-content: center;" onclick="openModal('The Kimberley Unlocked', '$24.99 AUD')">Instant Download Buy</button>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- SUBPAGE: BOOK - TASMANIA -->
-    <main id="book-tasmania" class="page-content">
-        <a class="back-btn" onclick="navigateTo('shop')">← Back to Bookshop</a>
-        <div class="detail-header">
-            <span class="badge">E-Book & GPX Tracks</span>
-            <h1>Tasmania Wild & Unfiltered</h1>
-        </div>
-        <img src="tasmania.jpg" class="detail-hero-img" alt="Tasmania Guide">
-        <div class="detail-grid">
-            <div>
-                <div class="detail-card">
-                    <h3>What’s Inside This Guide</h3>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
-                        Uncover off-grid boutique stays, secret coastal penguin rookeries, and bypass routes for Cradle Mountain.
-                    </p>
-                    <h3>Included Digital Files</h3>
-                    <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
-                        <li>High-resolution offline PDF guide book.</li>
-                        <li>GPX files for 14 iconic day hikes.</li>
-                    </ul>
-                </div>
-                <div class="detail-card">
-                    <h3>Region Coverage Map</h3>
-                    <div class="map-container">
-                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=144.0000%2C-43.8000%2C148.5000%2C-40.0000&amp;layer=mapnik&amp;marker=-42.0000%2C147.0000"></iframe>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="detail-card">
-                    <div class="price-tag">$19.99 AUD</div>
-                    <button class="btn btn-accent" style="width: 100%; justify-content: center;" onclick="openModal('Tasmania Wild & Unfiltered', '$19.99 AUD')">Instant Download Buy</button>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Checkout Modal -->
-    <div id="checkoutModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3 id="modalTitle" style="margin-bottom: 0.5rem;">Guide Title</h3>
-            <p id="modalPrice" class="price-tag">$0.00 AUD</p>
-            <form onsubmit="handlePurchase(event)">
-                <div style="margin-bottom: 1rem;">
-                    <label style="display:block; margin-bottom: 0.3rem; font-weight:600;">Email Address for Delivery</label>
-                    <input type="email" required placeholder="yourname@domain.com" style="width:100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: #0A0E17; color: #fff;">
-                </div>
-                <button type="submit" class="btn btn-accent" style="width: 100%; justify-content: center;">Complete Checkout →</button>
-            </form>
-            <p id="purchaseSuccess" style="display:none; color: var(--accent); margin-top: 1rem; text-align: center; font-weight: 600;">
-                🎉 Thank you! Your guide download link has been emailed.
-            </p>
-        </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 pulpo-australio. All rights reserved.</p>
-    </footer>
-
     <script>
-        function navigateTo(pageId) {
-            document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
-            const selectedPage = document.getElementById(pageId);
-            if (selectedPage) selectedPage.classList.add('active');
+        const ACCESS_CODE = "6767";
 
-            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
-            const activeNav = document.getElementById(`nav-${pageId}`);
-            if (activeNav) activeNav.classList.add('active');
+        function checkCode() {
+            const enteredCode = document.getElementById("code").value;
+            const error = document.getElementById("error");
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (enteredCode === ACCESS_CODE) {
+                document.getElementById("login").style.display = "none";
+                document.getElementById("selector").style.display = "block";
+                error.style.display = "none";
+            } else {
+                error.style.display = "block";
+                document.getElementById("code").value = "";
+                document.getElementById("code").focus();
+            }
         }
 
-        function openModal(title, price) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalPrice').innerText = price;
-            document.getElementById('purchaseSuccess').style.display = 'none';
-            document.getElementById('checkoutModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('checkoutModal').style.display = 'none';
-        }
-
-        function handlePurchase(event) {
-            event.preventDefault();
-            document.getElementById('purchaseSuccess').style.display = 'block';
+        function openWebsite(filename) {
+            window.location.href = filename;
         }
     </script>
+
 </body>
 </html>
+```

@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pulpo-australio | Secret Spots & Uncharted Guides</title>
+<style>
+
+    :root {
+        --bg: #ffffff;
+        --bg-soft: #f5f5f7;
+        --text: #1d1d1f;
+        --text-secondary: #6e6e73;
+        --border: #d2d2d7;
+        --accent: #0068d1;
+        --accent-hover: #0055ab;
+        --radius: 18px;
+        --radius-sm: 12px;
+        --transition: all 0.25s ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------- Header ---------- */
+    header {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .navbar {
+        max-width: 1120px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.9rem 1.5rem;
+    }
+
+    .logo {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--text);
+        text-decoration: none;
+        letter-spacing: -0.01em;
+        cursor: pointer;
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 0.25rem;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: var(--text-secondary);
+        font-weight: 500;
+        padding: 0.5rem 0.9rem;
+        border-radius: 980px;
+        transition: var(--transition);
+        cursor: pointer;
+        font-size: 0.92rem;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--text); background: var(--bg-soft); }
+
+    /* ---------- Page shell ---------- */
+    .page-content {
+        display: none;
+        flex: 1;
+        max-width: 1120px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 5rem;
+        animation: fadeIn 0.35s ease forwards;
+    }
+
+    .page-content.active { display: block; }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    h1 { font-size: 2.6rem; font-weight: 600; letter-spacing: -0.02em; }
+    h2 { font-size: 1.9rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 1.25rem; }
+    h3 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; }
+    h4 { font-size: 1.05rem; font-weight: 600; }
+
+    p { color: var(--text-secondary); }
+
+    /* ---------- Hero ---------- */
+    .hero {
+        text-align: center;
+        padding: 4rem 1.5rem 3rem;
+        margin-bottom: 3.5rem;
+    }
+
+    .hero h1 { margin-bottom: 0.9rem; }
+    .hero p { font-size: 1.15rem; max-width: 560px; margin: 0 auto 2rem; }
+
+    .btn-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: var(--accent);
+        color: #ffffff;
+        padding: 0.7rem 1.4rem;
+        border-radius: 980px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        border: none;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .btn:hover { background: var(--accent-hover); }
+
+    .btn-secondary {
+        background: transparent;
+        color: var(--accent);
+        padding: 0.7rem 1.1rem;
+    }
+
+    .btn-secondary:hover { background: var(--bg-soft); }
+
+    .btn-outline {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover { background: var(--bg-soft); }
+
+    .btn-full { width: 100%; justify-content: center; }
+
+    /* ---------- Section heading row ---------- */
+    .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-head p { margin-top: 0.25rem; max-width: 520px; }
+
+    /* ---------- Grid / Cards ---------- */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .card {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card:hover { border-color: #b6b6bb; transform: translateY(-2px); }
+
+    .card-img-wrapper {
+        width: 100%;
+        height: 200px;
+        background: var(--bg-soft);
+        overflow: hidden;
+    }
+
+    .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 0.5rem;
+    }
+
+    .eyebrow {
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+    .card-body h3 { margin-top: 0.1rem; }
+    .card-body p { font-size: 0.95rem; flex: 1; }
+
+    .price-tag {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text);
+    }
+
+    .price-was {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-decoration: line-through;
+        font-weight: 400;
+        margin-left: 0.4rem;
+    }
+
+    /* ---------- Feature banner (free guide / spotlight) ---------- */
+    .feature-banner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        margin-top: 3.5rem;
+    }
+
+    .feature-media { flex: 1 1 320px; min-height: 240px; background: var(--bg-soft); }
+    .feature-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .feature-body {
+        flex: 1.4 1 340px;
+        padding: 2.25rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .feature-body h3 { font-size: 1.5rem; margin: 0.4rem 0 0.75rem; }
+    .feature-body p { margin-bottom: 1.5rem; }
+
+    .spotlight-banner {
+        margin-top: 3.5rem;
+        background: var(--bg-soft);
+        border-radius: var(--radius);
+        padding: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2.5rem;
+        flex-wrap: wrap;
+    }
+
+    .spotlight-banner .text-block { flex: 2 1 320px; }
+    .spotlight-banner .image-block {
+        flex: 1 1 240px;
+        max-width: 320px;
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+    }
+    .spotlight-banner img { width: 100%; height: 180px; object-fit: cover; display: block; }
+
+    /* ---------- Guide list rows (Melbourne page) ---------- */
+    .guide-card-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-top: 1.25rem;
+    }
+
+    .guide-item-card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 260px 1fr;
+    }
+
+    .guide-card-media { min-height: 190px; background: var(--bg-soft); }
+    .guide-card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .guide-card-content {
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.4rem;
+    }
+
+    .guide-card-tag { font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; }
+    .guide-card-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .guide-card-text { font-size: 0.94rem; margin-bottom: 0.6rem; }
+
+    .guide-card-meta {
+        display: flex;
+        gap: 1.25rem;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        padding-top: 0.85rem;
+        border-top: 1px solid var(--border);
+        margin-top: auto;
+    }
+
+    @media (max-width: 768px) {
+        .guide-item-card { grid-template-columns: 1fr; }
+        .guide-card-media { height: 200px; }
+    }
+
+    /* ---------- Stats ---------- */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        margin-top: 1.5rem;
+    }
+
+    .stat-card {
+        background: var(--bg);
+        padding: 1.5rem 1.25rem;
+        text-align: center;
+    }
+
+    .stat-number { font-size: 1.7rem; font-weight: 600; color: var(--text); line-height: 1.2; }
+    .stat-label { font-size: 0.85rem; color: var(--text); margin-top: 0.3rem; }
+    .stat-sub { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.2rem; }
+
+    /* ---------- Flags ---------- */
+    .flags-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.25rem;
+        margin: 1.5rem 0;
+    }
+
+    .flag-card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .flag-img-box {
+        width: 100%;
+        height: 140px;
+        background: var(--bg-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem;
+    }
+
+    .flag-img-box svg {
+        width: 100%;
+        max-width: 220px;
+        height: auto;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+    }
+
+    .flag-content { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.3rem; }
+
+    .flag-title {
+        font-size: 1rem;
+        font-weight: 600;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    .flag-title span:last-child { font-size: 0.78rem; color: var(--text-secondary); font-weight: 400; white-space: nowrap; }
+
+    .flag-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.55; }
+
+    .subhead {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--text);
+        margin: 2rem 0 1rem;
+    }
+
+    /* ---------- Persons ---------- */
+    .persons-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.25rem;
+        margin-top: 1.5rem;
+    }
+
+    .person-card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 1.4rem;
+    }
+
+    .person-name { font-size: 1.02rem; font-weight: 600; }
+    .person-role { font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.15rem; margin-bottom: 0.7rem; }
+    .person-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.55; }
+
+    /* ---------- Timeline ---------- */
+    .history-timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+        position: relative;
+        padding-left: 1.75rem;
+        border-left: 1px solid var(--border);
+    }
+
+    .timeline-event { position: relative; }
+
+    .timeline-event::before {
+        content: '';
+        position: absolute;
+        left: -2.05rem;
+        top: 0.4rem;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+    }
+
+    .timeline-year { font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+    .timeline-title { font-size: 1.08rem; font-weight: 600; margin: 0.2rem 0 0.4rem; }
+    .timeline-desc { color: var(--text-secondary); font-size: 0.94rem; line-height: 1.6; }
+
+    /* ---------- Detail pages ---------- */
+    .detail-header { margin-bottom: 2rem; }
+    .detail-header p { font-size: 1.05rem; max-width: 720px; margin-top: 0.5rem; }
+
+    .detail-hero-img {
+        width: 100%;
+        height: 360px;
+        object-fit: cover;
+        border-radius: var(--radius);
+        margin-bottom: 2.5rem;
+        background: var(--bg-soft);
+    }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        cursor: pointer;
+        margin-bottom: 1.75rem;
+    }
+
+    .detail-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2.5rem;
+    }
+
+    .detail-card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.9rem;
+        margin-bottom: 1.75rem;
+    }
+
+    .detail-card > p { margin-top: 0.5rem; }
+
+    .detail-card ul { margin-left: 1.1rem; margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.94rem; line-height: 1.65; }
+
+    .fact-row { display: flex; flex-direction: column; gap: 0.9rem; margin-top: 0.75rem; font-size: 0.92rem; }
+    .fact-row strong { display: block; color: var(--text); font-size: 0.9rem; margin-bottom: 0.15rem; }
+    .fact-row p { color: var(--text-secondary); font-size: 0.9rem; }
+
+    .map-container {
+        width: 100%;
+        height: 300px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        margin-top: 1rem;
+    }
+
+    .map-container iframe { width: 100%; height: 100%; border: none; }
+
+    .highlight-card {
+        border: 1px solid var(--border);
+        background: var(--bg-soft);
+    }
+
+    /* ---------- Modal ---------- */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(6px);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem;
+    }
+
+    .modal-content {
+        background: #fff;
+        border-radius: var(--radius);
+        padding: 2.5rem;
+        max-width: 480px;
+        width: 100%;
+        position: relative;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 1.1rem; right: 1.4rem;
+        font-size: 1.5rem;
+        color: var(--text-secondary);
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    .modal-content input {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--text);
+        font-size: 0.95rem;
+    }
+
+    .modal-content label { display: block; margin-bottom: 0.4rem; font-weight: 500; font-size: 0.92rem; }
+
+    footer {
+        border-top: 1px solid var(--border);
+        color: var(--text-secondary);
+        text-align: center;
+        padding: 2rem;
+        margin-top: auto;
+        font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+        .navbar { flex-direction: column; gap: 0.75rem; padding: 1rem 1.25rem; }
+        .hero h1 { font-size: 2rem; }
+        .detail-grid { grid-template-columns: 1fr; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <a class="logo" onclick="navigateTo('home')">pulpo-australio</a>
+        <ul class="nav-links">
+            <li><a id="nav-home" class="active" onclick="navigateTo('home')">Home</a></li>
+            <li><a id="nav-about-australia" onclick="navigateTo('about-australia')">About Australia</a></li>
+            <li><a id="nav-secrets" onclick="navigateTo('secrets')">Secret Spots</a></li>
+            <li><a id="nav-shop" onclick="navigateTo('shop')">Travel Guides</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Page 1: Home -->
+<main id="home" class="page-content active">
+    <section class="hero">
+        <h1>Uncharted Australia awaits</h1>
+        <p>Curated secret locations, off-grid adventure itineraries, and downloadable travel guides tailored by local experts.</p>
+        <div class="btn-row">
+            <button class="btn" onclick="navigateTo('secrets')">Explore secret spots</button>
+            <button class="btn btn-outline" onclick="navigateTo('shop')">Shop digital guides</button>
+            <button class="btn btn-secondary" onclick="navigateTo('about-australia')">About Australia</button>
+        </div>
+    </section>
+
+    <div class="section-head">
+        <h2 style="margin-bottom:0;">Popular secret locations</h2>
+    </div>
+    <div class="grid">
+        <div class="card">
+            <div class="card-img-wrapper"><img src="lordhowe.jpg" alt="Lord Howe Island"></div>
+            <div class="card-body">
+                <span class="eyebrow">New South Wales</span>
+                <h3>Lord Howe Island</h3>
+                <p>A secluded volcanic paradise with restricted visitor permits.</p>
+                <button class="btn btn-secondary" style="padding-left:0;" onclick="navigateTo('spot-lordhowe')">Explore spot</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-img-wrapper"><img src="karijini.jpg" alt="Karijini Gorges"></div>
+            <div class="card-body">
+                <span class="eyebrow">Western Australia</span>
+                <h3>Karijini Gorges</h3>
+                <p>Ancient chasms, natural emerald pools, and hidden swimming holes.</p>
+                <button class="btn btn-secondary" style="padding-left:0;" onclick="navigateTo('spot-karijini')">Explore spot</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Free Guide Banner -->
+    <div class="section-head" style="margin-top:3.5rem; margin-bottom:0;">
+        <div>
+            <span class="eyebrow">Free access edition</span>
+            <h2 style="margin-top:0.3rem;">Featured city travel guide</h2>
+        </div>
+        <button class="btn" onclick="navigateTo('guide-melbourne')">Open free Melbourne guide</button>
+    </div>
+    <div class="feature-banner">
+        <div class="feature-media"><img src="melbourne.jpg" alt="Melbourne City Skyline"></div>
+        <div class="feature-body">
+            <span class="eyebrow">Victoria, Australia — 100% free access</span>
+            <h3>Melbourne: culture, coffee & hidden laneways</h3>
+            <p>Explore Australia's cultural capital without spending a cent on guides. From graffiti-splashed laneways and iconic third-wave coffee roasters to fairy penguins at St Kilda, lush botanic gardens, and the electric Albert Park Grand Prix circuit.</p>
+            <div class="btn-row" style="justify-content:flex-start;">
+                <button class="btn" onclick="navigateTo('guide-melbourne')">Read free guide online</button>
+                <button class="btn btn-outline" onclick="openModal('Melbourne: Culture, Coffee &amp; Hidden Laneways (Free Guide)', 'FREE ACCESS - $0.00')">Download free PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Country Spotlight Banner -->
+    <div class="spotlight-banner">
+        <div class="text-block">
+            <span class="eyebrow">Country spotlight</span>
+            <h3 style="margin: 0.5rem 0;">Explore Australia: history, all flags, stats & legends</h3>
+            <p style="margin-bottom: 1.25rem;">Discover 65,000+ years of First Nations culture, browse all official national and territory flags, meet iconic Aussies (from Steve Irwin to Cathy Freeman), and dive into essential continent stats.</p>
+            <button class="btn" onclick="navigateTo('about-australia')">Explore About Australia</button>
+        </div>
+        <div class="image-block"><img src="australia.jpg" alt="Australia Outback Uluru"></div>
+    </div>
+</main>
+
+<!-- Page 2: Secret Spots Hub -->
+<main id="secrets" class="page-content">
+    <div class="section-head">
+        <div>
+            <h2 style="margin-bottom:0.3rem;">Secret spots directory</h2>
+            <p>Select a spot to see its full guide and coordinates.</p>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="card-img-wrapper"><img src="lordhowe.jpg" alt="Lord Howe Island"></div>
+            <div class="card-body">
+                <span class="eyebrow">New South Wales</span>
+                <h3>Lord Howe Island</h3>
+                <p>A secluded volcanic paradise with restricted visitor permits.</p>
+                <button class="btn btn-secondary" style="padding-left:0;" onclick="navigateTo('spot-lordhowe')">Read full guide</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-img-wrapper"><img src="karijini.jpg" alt="Karijini Gorges"></div>
+            <div class="card-body">
+                <span class="eyebrow">Western Australia</span>
+                <h3>Karijini Gorges</h3>
+                <p>Ancient chasms, natural emerald pools, and hidden swimming holes.</p>
+                <button class="btn btn-secondary" style="padding-left:0;" onclick="navigateTo('spot-karijini')">Read full guide</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-img-wrapper"><img src="hinchinbrook.jpg" alt="Hinchinbrook Island"></div>
+            <div class="card-body">
+                <span class="eyebrow">Queensland</span>
+                <h3>Hinchinbrook Island</h3>
+                <p>Uninhabited island national park with rugged wilderness trails.</p>
+                <button class="btn btn-secondary" style="padding-left:0;" onclick="navigateTo('spot-hinchinbrook')">Read full guide</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Page 3: Shop Hub -->
+<main id="shop" class="page-content">
+    <div class="section-head">
+        <div>
+            <h2 style="margin-bottom:0.3rem;">Travel guides & bookshop</h2>
+            <p>Select a guidebook to view region maps, chapter breakdowns, and offline access details.</p>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="card-img-wrapper"><img src="melbourne.jpg" alt="Melbourne Travel Guide"></div>
+            <div class="card-body">
+                <span class="eyebrow">Free digital edition</span>
+                <h3>Melbourne: culture & hidden laneways</h3>
+                <p>Secret arcades, world-famous coffee spots, Queen Vic Market, fairy penguins, and Albert Park's Grand Prix circuit.</p>
+                <div class="price-tag">Free <span class="price-was">$19.99 AUD</span></div>
+                <button class="btn" onclick="navigateTo('guide-melbourne')">Access free guide</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-img-wrapper"><img src="kimberley.jpg" alt="The Kimberley Guide"></div>
+            <div class="card-body">
+                <span class="eyebrow">E-book + GPX</span>
+                <h3>The Kimberley unlocked</h3>
+                <p>4WD trail maps, secret tidal waterholes, and seasonal itineraries.</p>
+                <div class="price-tag">$24.99 AUD</div>
+                <button class="btn btn-outline" onclick="navigateTo('book-kimberley')">Book details & preview</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-img-wrapper"><img src="tasmania.jpg" alt="Tasmania Guide"></div>
+            <div class="card-body">
+                <span class="eyebrow">E-book + GPX</span>
+                <h3>Tasmania wild & unfiltered</h3>
+                <p>Comprehensive 14-day loop covering secret beaches and alpine walks.</p>
+                <div class="price-tag">$19.99 AUD</div>
+                <button class="btn btn-outline" onclick="navigateTo('book-tasmania')">Book details & preview</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- SUBPAGE: LORD HOWE ISLAND -->
+<main id="spot-lordhowe" class="page-content">
+    <a class="back-btn" onclick="navigateTo('secrets')">← Back to secret spots</a>
+    <div class="detail-header">
+        <span class="eyebrow">New South Wales · Secret spot</span>
+        <h1>Lord Howe Island secrets</h1>
+    </div>
+    <img src="lordhowe.jpg" class="detail-hero-img" alt="Lord Howe Island">
+    <div class="detail-grid">
+        <div>
+            <div class="detail-card">
+                <h3>About this spot</h3>
+                <p>Situated in the Tasman Sea, Lord Howe limits tourist numbers to just 400 at any time. It boasts world-class snorkeling around the southernmost coral reef on Earth.</p>
+                <h3 style="margin-top:1.5rem;">Insider tips</h3>
+                <ul>
+                    <li>Hike Mt. Gower with a mandatory local guide to see ancient cloud forests.</li>
+                    <li>Hand-feed wild kingfish right at Ned's Beach at low tide.</li>
+                </ul>
+            </div>
+            <div class="detail-card">
+                <h3>Location map</h3>
+                <div class="map-container">
+                    <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=159.0400%2C-31.5800%2C159.1200%2C-31.5000&amp;layer=mapnik&amp;marker=-31.5500%2C159.0833"></iframe>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="detail-card">
+                <h3>Location specs</h3>
+                <div class="fact-row">
+                    <div><strong>Best season</strong><p>September – May</p></div>
+                    <div><strong>Permit required</strong><p>Yes (flight capped)</p></div>
+                    <div><strong>Cell service</strong><p>Minimal / no 5G</p></div>
+                    <div><strong>Coordinates</strong><p>31.5500° S, 159.0833° E</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- SUBPAGE: KARIJINI -->
+<main id="spot-karijini" class="page-content">
+    <a class="back-btn" onclick="navigateTo('secrets')">← Back to secret spots</a>
+    <div class="detail-header">
+        <span class="eyebrow">Western Australia · Secret spot</span>
+        <h1>Karijini National Park gorges</h1>
+    </div>
+    <img src="karijini.jpg" class="detail-hero-img" alt="Karijini Gorges">
+    <div class="detail-grid">
+        <div>
+            <div class="detail-card">
+                <h3>About this spot</h3>
+                <p>2.5 billion years in the making, Karijini offers spider-walks through layered red gorges leading to crystal-clear natural swimming pools.</p>
+                <h3 style="margin-top:1.5rem;">Insider tips</h3>
+                <ul>
+                    <li>Visit Hancock Gorge early in the morning to beat tour groups.</li>
+                    <li>Bring sturdy aquatic shoes for slippery canyon walks.</li>
+                </ul>
+            </div>
+            <div class="detail-card">
+                <h3>Location map</h3>
+                <div class="map-container">
+                    <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=118.2000%2C-22.6000%2C118.7000%2C-22.2000&amp;layer=mapnik&amp;marker=-22.4869%2C118.4673"></iframe>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="detail-card">
+                <h3>Location specs</h3>
+                <div class="fact-row">
+                    <div><strong>Best season</strong><p>May – September</p></div>
+                    <div><strong>Vehicle access</strong><p>4WD recommended</p></div>
+                    <div><strong>Coordinates</strong><p>22.4869° S, 118.4673° E</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- SUBPAGE: HINCHINBROOK -->
+<main id="spot-hinchinbrook" class="page-content">
+    <a class="back-btn" onclick="navigateTo('secrets')">← Back to secret spots</a>
+    <div class="detail-header">
+        <span class="eyebrow">Queensland · Secret spot</span>
+        <h1>Hinchinbrook Island</h1>
+    </div>
+    <img src="hinchinbrook.jpg" class="detail-hero-img" alt="Hinchinbrook Island">
+    <div class="detail-grid">
+        <div>
+            <div class="detail-card">
+                <h3>About this spot</h3>
+                <p>An entire uninhabited island designated as a national park. Home to Nina Peak and the iconic cliffside infinity pool at Zoe Falls.</p>
+                <h3 style="margin-top:1.5rem;">Insider tips</h3>
+                <ul>
+                    <li>Book Thorsborne Trail camping permits up to 6 months in advance.</li>
+                    <li>Always carry a crocodile safety strategy near tidal creeks.</li>
+                </ul>
+            </div>
+            <div class="detail-card">
+                <h3>Location map</h3>
+                <div class="map-container">
+                    <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=146.0500%2C-18.5000%2C146.4000%2C-18.1500&amp;layer=mapnik&amp;marker=-18.3620%2C146.2360"></iframe>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="detail-card">
+                <h3>Location specs</h3>
+                <div class="fact-row">
+                    <div><strong>Best season</strong><p>April – October</p></div>
+                    <div><strong>Hiking permit</strong><p>Required</p></div>
+                    <div><strong>Coordinates</strong><p>18.3620° S, 146.2360° E</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- SUBPAGE: BOOK - KIMBERLEY -->
+<main id="book-kimberley" class="page-content">
+    <a class="back-btn" onclick="navigateTo('shop')">← Back to bookshop</a>
+    <div class="detail-header">
+        <span class="eyebrow">E-book & GPX tracks</span>
+        <h1>The Kimberley unlocked guide</h1>
+    </div>
+    <img src="kimberley.jpg" class="detail-hero-img" alt="The Kimberley Guide">
+    <div class="detail-grid">
+        <div>
+            <div class="detail-card">
+                <h3>What's inside this guide</h3>
+                <p>A 120-page comprehensive digital manual detailing the Gibb River Road, secret waterhole coordinates, and local station contact lists.</p>
+                <h3 style="margin-top:1.5rem;">Included digital files</h3>
+                <ul>
+                    <li>High-resolution offline PDF guide book.</li>
+                    <li>GPX files compatible with Gaia GPS and Avenza Maps.</li>
+                </ul>
+            </div>
+            <div class="detail-card">
+                <h3>Region coverage map</h3>
+                <div class="map-container">
+                    <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=123.0000%2C-19.0000%2C129.0000%2C-13.5000&amp;layer=mapnik&amp;marker=-17.4914%2C124.5326"></iframe>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="detail-card">
+                <div class="price-tag" style="margin-bottom:1rem;">$24.99 AUD</div>
+                <button class="btn btn-full" onclick="openModal('The Kimberley Unlocked', '$24.99 AUD')">Buy instant download</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- SUBPAGE: BOOK - TASMANIA -->
+<main id="book-tasmania" class="page-content">
+    <a class="back-btn" onclick="navigateTo('shop')">← Back to bookshop</a>
+    <div class="detail-header">
+        <span class="eyebrow">E-book & GPX tracks</span>
+        <h1>Tasmania wild & unfiltered</h1>
+    </div>
+    <img src="tasmania.jpg" class="detail-hero-img" alt="Tasmania Guide">
+    <div class="detail-grid">
+        <div>
+            <div class="detail-card">
+                <h3>What's inside this guide</h3>
+                <p>Uncover off-grid boutique stays, secret coastal penguin rookeries, and bypass routes for Cradle Mountain.</p>
+                <h3 style="margin-top:1.5rem;">Included digital files</h3>
+                <ul>
+                    <li>High-resolution offline PDF guide book.</li>
+                    <li>GPX files for 14 iconic day hikes.</li>
+                </ul>
+            </div>
+            <div class="detail-card">
+                <h3>Region coverage map</h3>
+                <div class="map-container">
+                    <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=144.0000%2C-43.8000%2C148.5000%2C-40.0000&amp;layer=mapnik&amp;marker=-42.0000%2C147.0000"></iframe>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="detail-card">
+                <div class="price-tag" style="margin-bottom:1rem;">$19.99 AUD</div>
+                <button class="btn btn-full" onclick="openModal('Tasmania Wild & Unfiltered', '$19.99 AUD')">Buy instant download</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- SUBPAGE: MELBOURNE FREE TRAVEL GUIDE -->
+<main id="guide-melbourne" class="page-content">
+    <a class="back-btn" onclick="navigateTo('shop')">← Back to travel guides</a>
+    <div class="detail-header">
+        <span class="eyebrow">Free access edition · Victoria city guide</span>
+        <h1>Melbourne: culture, coffee & hidden laneways</h1>
+        <p>Australia's cultural, culinary, and coffee capital. A comprehensive free guide to hidden graffiti laneways, legendary espresso bars, heritage markets, coastal penguin rookeries, and urban gems.</p>
+    </div>
+
+    <img src="melbourne.jpg" class="detail-hero-img" alt="Melbourne Skyline and Yarra River">
+
+    <div class="detail-grid">
+        <div>
+            <div class="detail-card">
+                <h3>About Melbourne</h3>
+                <p>Constantly celebrated as one of the world's most beautiful cities, Melbourne is known for its sport, coffee, and culture. Famous for its specialty coffee, architecture, and thriving live music and sports scenes, it's a city designed for curious walkers.</p>
+            </div>
+
+            <div class="detail-card">
+                <h3>Top things to do in Melbourne</h3>
+                <p style="margin-bottom:0.5rem;">A curated selection of the best experiences across the city — accessible easily on foot and by tram:</p>
+
+                <div class="guide-card-list">
+                    <div class="guide-item-card">
+                        <div class="guide-card-media"><img src="melbourne_laneways.jpg" alt="Melbourne Laneways and Street Art"></div>
+                        <div class="guide-card-content">
+                            <div class="guide-card-tag">CBD laneways & arcades</div>
+                            <h4 class="guide-card-title">Explore the iconic laneways & street art</h4>
+                            <p class="guide-card-text">Melbourne's soul lives in the labyrinth of bluestone alleys. Wander through <strong>Hosier Lane</strong> and <strong>AC/DC Lane</strong> to experience changing masterpieces and stencils by world-class street artists. Slip into <strong>Centre Place</strong> and <strong>Degraves Street</strong> for espresso bars, and marvel at the 19th-century mosaic floors of the historic <strong>Block Arcade</strong>.</p>
+                            <div class="guide-card-meta">
+                                <span>Hosier Lane & Centre Place</span>
+                                <span>Free</span>
+                                <span>Best explored on foot</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-item-card">
+                        <div class="guide-card-media"><img src="melbourne_coffee.jpg" alt="Melbourne Specialty Coffee Culture"></div>
+                        <div class="guide-card-content">
+                            <div class="guide-card-tag">World-class roasteries</div>
+                            <h4 class="guide-card-title">Immerse yourself in the world's best coffee culture</h4>
+                            <p class="guide-card-text">Melbourne considers specialty coffee an art form. Skip the fast food chains and sample local roasteries. Order a <em>"Magic"</em> (a Melbourne original: double ristretto topped with velvety steamed milk) at CBD icons like <strong>Patricia Coffee Brewers</strong> or <strong>Brother Baba Budan</strong>, or browse the bohemian roasteries along Brunswick Street in <strong>Fitzroy</strong>.</p>
+                            <div class="guide-card-meta">
+                                <span>CBD, Fitzroy & Carlton</span>
+                                <span>Must try: "a Magic"</span>
+                                <span>Third-wave roasters</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-item-card">
+                        <div class="guide-card-media"><img src="melbourne_gardens.jpg" alt="Royal Botanic Gardens Melbourne and Ornamental Lake"></div>
+                        <div class="guide-card-content">
+                            <div class="guide-card-tag">Lakeside sanctuary</div>
+                            <h4 class="guide-card-title">Stroll the Royal Botanic Gardens</h4>
+                            <p class="guide-card-text">Covering 38 hectares beside the Yarra River, these lush heritage gardens feature over 8,500 plant species from around the globe. Explore the arid Guilfoyle Volcano or rest beside the serene Ornamental Lake.</p>
+                            <div class="guide-card-meta">
+                                <span>South Yarra / Birdwood Ave</span>
+                                <span>Free general admission</span>
+                                <span>3.8 km Tan Track loop</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-item-card">
+                        <div class="guide-card-media"><img src="melbourne_market.jpg" alt="Queen Victoria Market Food Hall"></div>
+                        <div class="guide-card-content">
+                            <div class="guide-card-tag">Culinary haven since 1878</div>
+                            <h4 class="guide-card-title">Feast at the historic Queen Victoria Market</h4>
+                            <p class="guide-card-text">Operating since 1878, "Queen Vic" is the culinary heart and soul of Melbourne. Wander through the heritage Deli Hall for fresh Coffin Bay oysters, regional farmhouse cheeses, and artisan charcuterie, and get hot jam doughnuts fresh from the vintage 1950s food van outside.</p>
+                            <div class="guide-card-meta">
+                                <span>Queen St, Melbourne CBD</span>
+                                <span>Famous hot jam doughnuts</span>
+                                <span>Fresh local produce</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-item-card">
+                        <div class="guide-card-media"><img src="melbourne_penguins.jpg" alt="Little Blue Fairy Penguin at St Kilda Pier"></div>
+                        <div class="guide-card-content">
+                            <div class="guide-card-tag">Bayside escape</div>
+                            <h4 class="guide-card-title">Watch fairy penguins at St Kilda beach & pier</h4>
+                            <p class="guide-card-text">Jump on the Route 96 or 16 tram to coastal St Kilda. Walk along the seaside pier around twilight to spot wild Little Blue Penguins. After that, explore the shops along Acland Street and pass the bright entrance of historic <strong>Luna Park</strong>.</p>
+                            <div class="guide-card-meta">
+                                <span>St Kilda Pier & Acland St</span>
+                                <span>Twilight penguin viewing</span>
+                                <span>Tram route 96 or 16</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-item-card">
+                        <div class="guide-card-media"><img src="melbourne_arts.jpg" alt="National Gallery of Victoria and Southbank Promenade"></div>
+                        <div class="guide-card-content">
+                            <div class="guide-card-tag">Galleries & riverside walks</div>
+                            <h4 class="guide-card-title">Explore the Arts Precinct & Southbank promenade</h4>
+                            <p class="guide-card-text">Cross the Princes Bridge to Southbank. Discover the <strong>National Gallery of Victoria (NGV)</strong> — Australia's oldest and most visited public gallery, with free general admission to its permanent collections. In the evening, enjoy the Yarra River promenade with waterfront dining, city skyline reflections, and the Crown gas brigade fire displays.</p>
+                            <div class="guide-card-meta">
+                                <span>St Kilda Rd & Southbank</span>
+                                <span>Free NGV permanent exhibits</span>
+                                <span>Night skyline views</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-item-card highlight-card">
+                        <div class="guide-card-media"><img src="melbourne_f1.jpg" alt="Albert Park Lake and Grand Prix Circuit Melbourne"></div>
+                        <div class="guide-card-content">
+                            <div class="guide-card-tag">Albert Park & lakeside detour</div>
+                            <h4 class="guide-card-title">Side note: Formula 1 at Albert Park Lake</h4>
+                            <p class="guide-card-text">If you're a motorsport enthusiast, make a quick detour to <strong>Albert Park Lake</strong>, just 3 km south of the CBD. For most of the year, it's a calm, picturesque public park filled with black swans, walking trails, and rowers against the backdrop of the Melbourne skyline. But every autumn, its surrounding lakeside roads transform into the high-octane <strong>Albert Park Grand Prix Circuit</strong> for the Formula 1 Australian Grand Prix.</p>
+                            <div class="guide-card-meta">
+                                <span>Free year-round access</span>
+                                <span>Outside race preparations, freely walk, run, or cycle the actual F1 track and pit lane</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h3>Melbourne city & Albert Park map</h3>
+                <div class="map-container">
+                    <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=144.9200%2C-37.8600%2C145.0100%2C-37.8000&amp;layer=mapnik&amp;marker=-37.8136%2C144.9631"></iframe>
+                </div>
+                <p style="font-size: 0.85rem; margin-top: 0.75rem;">Highlights: Melbourne CBD, Southbank Arts Precinct, Royal Botanic Gardens, and Albert Park Grand Prix Circuit.</p>
+            </div>
+        </div>
+
+        <div>
+            <div class="detail-card highlight-card">
+                <span class="eyebrow">Complimentary edition</span>
+                <div class="price-tag" style="margin: 0.5rem 0 0.25rem;">Free <span class="price-was">$19.99 AUD</span></div>
+                <p style="font-size: 0.9rem; margin-bottom: 1.25rem;">Full online guide with zero paywalls. You can read it directly here or download an offline PDF copy for your phone.</p>
+                <button class="btn btn-full" onclick="openModal('Melbourne: Culture, Coffee &amp; Hidden Laneways (Free Guide)', 'FREE ACCESS - $0.00')">Download free PDF copy</button>
+            </div>
+
+            <div class="detail-card">
+                <h3>Essential city specs</h3>
+                <div class="fact-row">
+                    <div><strong>State & country</strong><p>Victoria (VIC), Australia</p></div>
+                    <div><strong>Best season</strong><p>October – April (spring / summer / autumn)</p></div>
+                    <div><strong>Free tram zone</strong><p>All trams within the Melbourne CBD grid and Docklands are free of charge — no ticket or Myki card needed.</p></div>
+                    <div><strong>Getting around</strong><p>High walkability, extensive tram network, bike share paths along the Yarra.</p></div>
+                    <div><strong>Coordinates</strong><p>37.8136° S, 144.9631° E</p></div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h3>Insider tips</h3>
+                <ul>
+                    <li><strong>Four seasons in one day:</strong> Always pack a light jacket and compact umbrella; Melbourne weather can shift rapidly.</li>
+                    <li><strong>Rooftop views:</strong> Try Curtin House (rooftop bar on Swanston St) or Naked for Satan in Fitzroy for panoramic skyline vistas.</li>
+                    <li><strong>Free City Circle Tram (Route 35):</strong> Ride the heritage maroon tram around the city loop for free sightseeing with audio commentary.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- SUBPAGE: ABOUT AUSTRALIA -->
+<main id="about-australia" class="page-content">
+    <a class="back-btn" onclick="navigateTo('home')">← Back to home</a>
+    <div class="detail-header">
+        <span class="eyebrow">Country overview · History & culture</span>
+        <h1>Australia: the land down under</h1>
+        <p>An ancient continent of breathtaking contrasts. Home to the world's oldest continuous living culture, unique wildlife found nowhere else on Earth, vibrant global cities, and unforgettable outback frontiers.</p>
+    </div>
+
+    <img src="australia.jpg" class="detail-hero-img" alt="Australia Landscape - Uluru Kata Tjuta Red Centre">
+
+    <div class="detail-card highlight-card">
+        <h3>Australia by the numbers</h3>
+        <p>Key geographic, demographic, and ecological statistics defining the world's smallest continent and sixth-largest country:</p>
+
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-number">7.69M</div><div class="stat-label">Square kilometres</div><div class="stat-sub">6th largest nation on Earth</div></div>
+            <div class="stat-card"><div class="stat-number">~26.8M</div><div class="stat-label">Population</div><div class="stat-sub">~3.5 people per km²</div></div>
+            <div class="stat-card"><div class="stat-number">65,000+</div><div class="stat-label">Years of culture</div><div class="stat-sub">Oldest living civilisation</div></div>
+            <div class="stat-card"><div class="stat-number">34,218</div><div class="stat-label">km of coastline</div><div class="stat-sub">With 10,685 beaches</div></div>
+            <div class="stat-card"><div class="stat-number">80%+</div><div class="stat-label">Endemic wildlife</div><div class="stat-sub">Species found nowhere else</div></div>
+            <div class="stat-card"><div class="stat-number">Canberra</div><div class="stat-label">Federal capital</div><div class="stat-sub">Planned capital city in ACT</div></div>
+            <div class="stat-card"><div class="stat-number">6 & 2</div><div class="stat-label">States & territories</div><div class="stat-sub">6 states, NT & ACT</div></div>
+            <div class="stat-card"><div class="stat-number">16</div><div class="stat-label">UNESCO World Heritage</div><div class="stat-sub">Reefs, rainforests & deserts</div></div>
+        </div>
+    </div>
+
+    <div class="detail-grid">
+        <div>
+            <div class="detail-card">
+                <h3>Fascinating history milestones</h3>
+                <p>How tens of thousands of years of First Nations custodianship, colonial settlement, and gold rushes forged a proud, modern multicultural nation:</p>
+
+                <div class="history-timeline">
+                    <div class="timeline-event">
+                        <div class="timeline-year">65,000+ BCE</div>
+                        <div class="timeline-title">The world's oldest living civilisations</div>
+                        <div class="timeline-desc">Aboriginal and Torres Strait Islander peoples have inhabited and cared for Australia for more than 65,000 years across more than 250 distinct language nations. With oral songlines, the Dreamtime (creation cosmology), and rock art galleries older than the European cave paintings, Australia is home to humanity's longest continuous cultural heritage.</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-year">1770 & 1788</div>
+                        <div class="timeline-title">Cook's voyage & the First Fleet</div>
+                        <div class="timeline-desc">In 1770, British Lieutenant James Cook sailed the eastern coastline aboard HMS <em>Endeavour</em> and claimed it for Britain. On 26 January 1788, Captain Arthur Phillip led the First Fleet of 11 ships carrying around 1,400 convicts, marines, and crew into Port Jackson (Sydney Cove), establishing the penal colony of New South Wales.</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-year">1851</div>
+                        <div class="timeline-title">The Gold Rush & the birth of democracy</div>
+                        <div class="timeline-desc">Gold was struck in Ballarat and Bendigo (Victoria) and Bathurst (NSW), sparking a massive global gold rush that tripled Australia's population in ten years. In 1854, angry diggers revolted against oppressive colonial mining licences at the <strong>Eureka Stockade</strong> under the iconic Southern Cross Eureka flag. The rebellion was a defining turning point that accelerated democratic voting rights and secret ballots in Australia.</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-year">1901</div>
+                        <div class="timeline-title">Federation of the Commonwealth</div>
+                        <div class="timeline-desc">On 1 January 1901, six separate self-governing British colonies officially federated to establish the unified Commonwealth of Australia. In 1902, Australia became one of the first countries in the world to grant women both the right to vote and to stand for national parliament.</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-year">1956 – Present</div>
+                        <div class="timeline-title">Multicultural renaissance & Olympic glory</div>
+                        <div class="timeline-desc">Following post-World War II migration programs and the dismantling of the White Australia Policy, Australia welcomed millions of immigrants from Europe, Asia, the Americas, and Africa, creating one of the world's most vibrant multicultural societies. Australia cemented its global sporting stature by hosting the 1956 Melbourne Olympics, the unforgettable 2000 Sydney Olympics, and is preparing to host Brisbane 2032.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h3>Official & territorial flags of Australia</h3>
+                <p>Australia has three officially proclaimed national flags under the <em>Flags Act 1953</em>, along with distinctive flags for each of its six states and two mainland territories:</p>
+
+                <div class="subhead">Proclaimed national flags</div>
+                <div class="flags-grid">
+                    <div class="flag-card">
+                        <div class="flag-img-box">
+                            <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="240" height="120" fill="#00247D"/>
+                                <clipPath id="flagCanton"><rect width="120" height="60"/></clipPath>
+                                <g clip-path="url(#flagCanton)">
+                                    <rect width="120" height="60" fill="#00247D"/>
+                                    <line x1="0" y1="0" x2="120" y2="60" stroke="#FFFFFF" stroke-width="14"/>
+                                    <line x1="120" y1="0" x2="0" y2="60" stroke="#FFFFFF" stroke-width="14"/>
+                                    <line x1="0" y1="0" x2="120" y2="60" stroke="#CF142B" stroke-width="5"/>
+                                    <line x1="120" y1="0" x2="0" y2="60" stroke="#CF142B" stroke-width="5"/>
+                                    <line x1="60" y1="0" x2="60" y2="60" stroke="#FFFFFF" stroke-width="22"/>
+                                    <line x1="0" y1="30" x2="120" y2="30" stroke="#FFFFFF" stroke-width="22"/>
+                                    <line x1="60" y1="0" x2="60" y2="60" stroke="#CF142B" stroke-width="14"/>
+                                    <line x1="0" y1="30" x2="120" y2="30" stroke="#CF142B" stroke-width="14"/>
+                                </g>
+                                <polygon fill="#FFFFFF" points="60,73 63.6,82.8 73.5,81 68,89.5 75,96 65.5,98.2 64.3,108 57.8,100.8 48.5,104 51.5,95 44.5,88.7 54,86 54.5,76.5 60.5,84"/>
+                                <polygon fill="#FFFFFF" points="180,18 181.5,23.5 187,23.5 182.5,27 184,32 180,29 176,32 177.5,27 173,23.5 178.5,23.5"/>
+                                <polygon fill="#FFFFFF" points="202,46 203.5,51.5 209,51.5 204.5,55 206,60 202,57 198,60 199.5,55 195,51.5 200.5,51.5"/>
+                                <polygon fill="#FFFFFF" points="158,55 159.5,60.5 165,60.5 160.5,64 162,69 158,66 154,69 155.5,64 151,60.5 156.5,60.5"/>
+                                <polygon fill="#FFFFFF" points="188,67 189.2,70.5 193,70.5 190,72.5 191,76 188,74 185,76 186,72.5 183,70.5 186.8,70.5"/>
+                                <polygon fill="#FFFFFF" points="180,91 181.5,96.5 187,96.5 182.5,100 184,105 180,102 176,105 177.5,100 173,96.5 178.5,96.5"/>
+                            </svg>
+                        </div>
+                        <div class="flag-content">
+                            <div class="flag-title"><span>Australian National Flag</span><span>Est. 1901</span></div>
+                            <div class="flag-desc">Features the Union Jack (British ties), the 7-pointed Commonwealth Star (representing the 6 states plus the territories), and the five stars of the Southern Cross constellation visible across the southern hemisphere.</div>
+                        </div>
+                    </div>
+
+                    <div class="flag-card">
+                        <div class="flag-img-box">
+                            <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="240" height="60" fill="#000000"/>
+                                <rect y="60" width="240" height="60" fill="#C8102E"/>
+                                <circle cx="120" cy="60" r="30" fill="#FFCD00"/>
+                            </svg>
+                        </div>
+                        <div class="flag-content">
+                            <div class="flag-title"><span>Australian Aboriginal Flag</span><span>Est. 1971</span></div>
+                            <div class="flag-desc">Designed by Harold Thomas. Black represents the Aboriginal people; red represents the sacred red earth and spiritual relation to Country; the central yellow disc represents the sun, giver of life and protector.</div>
+                        </div>
+                    </div>
+
+                    <div class="flag-card">
+                        <div class="flag-img-box">
+                            <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="240" height="34" fill="#009639"/>
+                                <rect y="86" width="240" height="34" fill="#009639"/>
+                                <rect y="34" width="240" height="6" fill="#000000"/>
+                                <rect y="80" width="240" height="6" fill="#000000"/>
+                                <rect y="40" width="240" height="40" fill="#002F6C"/>
+                                <path d="M 98,72 C 98,48 142,48 142,72 C 137,70 135,55 120,55 C 105,55 103,70 98,72 Z" fill="#FFFFFF"/>
+                                <polygon fill="#FFFFFF" points="120,53 122.5,59 128.5,59 123.5,62.5 125.5,68 120,64.5 114.5,68 116.5,62.5 111.5,59 117.5,59"/>
+                            </svg>
+                        </div>
+                        <div class="flag-content">
+                            <div class="flag-title"><span>Torres Strait Islander Flag</span><span>Est. 1992</span></div>
+                            <div class="flag-desc">Designed by Bernard Namok. Green represents the land; black stripes the people; blue the sea; the white Dhari (headdress) represents cultural heritage; and the 5-pointed star represents the 5 major island groups and navigation.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subhead">State & territory flags</div>
+                <div class="flags-grid">
+                    <div class="flag-card">
+                        <div class="flag-img-box">
+                            <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="240" height="120" fill="#00247D"/>
+                                <g><rect width="120" height="60" fill="#00247D"/>
+                                <line x1="0" y1="0" x2="120" y2="60" stroke="#FFFFFF" stroke-width="10"/>
+                                <line x1="120" y1="0" x2="0" y2="60" stroke="#FFFFFF" stroke-width="10"/>
+                                <line x1="0" y1="0" x2="120" y2="60" stroke="#CF142B" stroke-width="3"/>
+                                <line x1="120" y1="0" x2="0" y2="60" stroke="#CF142B" stroke-width="3"/>
+                                <line x1="60" y1="0" x2="60" y2="60" stroke="#FFFFFF" stroke-width="16"/>
+                                <line x1="0" y1="30" x2="120" y2="30" stroke="#FFFFFF" stroke-width="16"/>
+                                <line x1="60" y1="0" x2="60" y2="60" stroke="#CF142B" stroke-width="10"/>
+                                <line x1="0" y1="30" x2="120" y2="30" stroke="#CF142B" stroke-width="10"/></g>
+                                <circle cx="180" cy="60" r="26" fill="#FFFFFF"/>
+                                <line x1="180" y1="36" x2="180" y2="84" stroke="#CF142B" stroke-width="8"/>
+                                <line x1="156" y1="60" x2="204" y2="60" stroke="#CF142B" stroke-width="8"/>
+                                <circle cx="180" cy="60" r="4" fill="#FFCD00"/>
+                                <circle cx="180" cy="42" r="2" fill="#FFCD00"/>
+                                <circle cx="180" cy="78" r="2" fill="#FFCD00"/>
+                                <circle cx="162" cy="60" r="2" fill="#FFCD00"/>
+                                <circle cx="198" cy="60" r="2" fill="#FFCD00"/>
+                            </svg>
+                        </div>
+                        <div class="flag-content">
+                            <div class="flag-title"><span>New South Wales (NSW)</span><span>Est. 1876</span></div>
+                            <div class="flag-desc">Blue ensign featuring the badge of NSW: St George's Cross with a golden lion passant at the centre and four golden stars on the arms.</div>
+                        </div>
+                    </div>
+
+                    <div class="flag-card">
+                        <div class="flag-img-box">
+                            <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="240" height="120" fill="#00247D"/>
+                                <g><rect width="120" height="60" fill="#00247D"/>
+                                <line x1="0" y1="0" x2="120" y2="60" stroke="#FFFFFF" stroke-width="10"/><line x1="120" y1="0" x2="0" y2="60" stroke="#FFFFFF" stroke-width="10"/>
+                                <line x1="0" y1="0" x2="120" y2="60" stroke="#CF142B" stroke-width="3"/><line x1="120" y1="0" x2="0" y2="60" stroke="#CF142B" stroke-width="3"/>
+                                <line x1="60" y1="0" x2="60" y2="60" stroke="#FFFFFF" stroke-width="16"/><line x1="0" y1="30" x2="120" y2="30" stroke="#FFFFFF" stroke-width="16"/>
+                                <line x1="60" y1="0" x2="60" y2="60" stroke="#CF142B" stroke-width="10"/><line x1="0" y1="30" x2="120" y2="30" stroke="#CF142B" stroke-width="10"/></g>
+                                <path d="M 172,34 L 175,41 L 180,36 L 185,41 L 188,34 L 187,46 L 173,46 Z" fill="#FFCD00" stroke="#CF142B" stroke-width="1"/>
+                                <polygon fill="#FFFFFF" points="180,48 181,52 185,52 182,54 183,58 180,56 177,58 178,54 175,52 179,52"/>
+                                <polygon fill="#FFFFFF" points="196,65 197,69 201,69 198,71 199,75 196,73 193,75 194,71 191,69 195,69"/>
+                                <polygon fill="#FFFFFF" points="164,72 165,76 169,76 166,78 167,82 164,80 161,82 162,78 159,76 163,76"/>
+                                <polygon fill="#FFFFFF" points="180,95 181,99 185,99 182,101 183,105 180,103 177,105 178,101 175,99 179,99"/>
+                                <polygon fill="#FFFFFF" points="186,76 187,79 190,79 188,81 189,84 186,82 183,84 184,81 182,79 185,79"/>
+                            </svg>
+                        </div>
+                        <div class="flag-content">
+                            <div class="flag-title"><span>Victoria (VIC)</span><span>Est. 1877</span></div>
+                            <div class="flag-desc">Blue ensign with the badge of Victoria: the five stars of the Southern Cross constellation crowned with the Royal Crown of Saint Edward.</div>
+                        </div>
+                    </div>
+
+                    <div class="flag-card">
+                        <div class="flag-img-box">
+                            <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="240" height="120" fill="#00247D"/>
+                                <g><rect width="120" height="60" fill="#00247D"/>
+                                <line x1="0" y1="0" x2="120" y2="60" stroke="#FFFFFF" stroke-width="10"/><line x1="120" y1="0" x2="0" y2="60" stroke="#FFFFFF" stroke-width="10"/>
+                                <line x1="0" y1="0" x2="120" y2="60" stroke="#CF142B" stroke-width="3"/><line x1="120" y1="0" x2="0" y2="60" stroke="#CF142B" stroke-width="3"/>
+                                <line x1="60" y1="0" x2="60" y2="60" stroke="#FFFFFF" stroke-width="16"/><line x1="0" y1="30" x2="120" y2="30" stroke="#FFFFFF" stroke-width="16"/>
+                                <line x1="60" y1="0" x2="60" y2="60" stroke="#CF142B" stroke-width="10"/><line x1="0" y1="30" x2="120" y2="30" stroke="#CF142B" stroke-width="10"/></g>
+                                <circle cx="180" cy="60" r="26" fill="#FFFFFF"/>
+                                <polygon fill="#0077C8" points="180,42 184,54 196,54 188,60 196,66 184,66 180,78 176,66 164,66 172,60 164,54 176,54"/>
+                                <circle cx="180" cy="60" r="5" fill="#FFCD00" stroke="#CF142B" stroke-width="1"/>
+                            </svg>
+                        </div>
+                        <div class="flag-content">
+                            <div class="flag-title"><span>Queensland (QLD)</span><span>Est. 1876</span></div>
+                            <div class="flag-desc">Blue ensign with the Queensland badge: a white roundel featuring a sky-blue Maltese cross surmounted by the Imperial Crown.</div>
+                        </div>
+                    </div>
+
+                    <div class="flag-card">
+                        <div class="flag-img-box">
+                            <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="240" height="120" fill="#00247D"/>
+                                <g><rect width="120" height="60" fill="#00247D"/>
+                                <line x1="0" y1="0" x2="120" y2="60" stroke="#FFFFFF" stroke-width="10"/><line x1="120" y1="0" x2="0" y2="60" stroke="#FFFFFF" stroke-width="10"/>
+                                <line x1="0" y1="0" x2="120" y2="60" stroke="#CF142B" stroke-width="3"/><line x1="120" y1="0" x2="0" y2="60" stroke="#CF142B" stroke-width="3"/>
+                                <line x1="60" y1="0" x2="60" y2="60" stroke="#FFFFFF" stroke-width="16"/><line x1="0" y1="30" x2="120" y2="30" stroke="#FFFFFF" stroke-width="16"/>
+                                <line x1="60" y1="0" x2="60" y2="60" stroke="#CF142B" stroke-width="10"/><line x1="0" y1="30" x2="120" y2="30" stroke="#CF142B" stroke-width="10"/></g>
+                                <circle cx="180" cy="60" r="26" fill="#FFCD00"/>
+                                <path d="M 172,50 C 170,44 175,42 178,44 C 180,46 179,52 185,55 C 192,57 194,62 192,67 C 187,73 173,73 168,69 C 166,66 168,62 174,62 C 178,62 176,57 172,50 Z" fill="#000000"/>
+                            </svg>
+                        </div>
+                        <div class="flag-content">
+                            <div class="flag-title"><span>Western Australia (WA)</span><span>Est. 1953</span></div>
+                            <div class="flag-desc">Blue ensign featuring a yellow roundel with Western Australia's state bird, the native black swan (<em>Cygnus atratus</em>), facing left.</div>
+                        </div>
+                    </div>
+
+                    <div class="flag-card">
+                        <div class="flag-img-box">
+                            <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="240" height="120" fill="#00247D"/>
+                                <g><rect width="120" height="60" fill="#00247D"/>
+                                <line x1="0" y1="0" x2="120" y2="60" stroke="#FFFFFF" stroke-width="10"/><line x1="120" y1="0" x2="0" y2="60" stroke="#FFFFFF" stroke-width="10"/>
+                                <line x1="0" y1="0" x2="120" y2="60" stroke="#CF142B" stroke-width="3"/><line x1="120" y1="0" x2="0" y2="60" stroke="#CF142B" stroke-width="3"/>
+                                <line x1="60" y1="0" x2="60" y2="60" stroke="#FFFFFF" stroke-width="16"/><line x1="0" y1="30" x2="120" y2="30" stroke="#FFFFFF" stroke-width="16"/>
+                                <line x1="60" y1="0" x2="60" y2="60" stroke="#CF142B" stroke-width="10"/><line x1="0" y1="30" x2="120" y2="30" stroke="#CF142B" stroke-width="10"/></g>
+                                <circle cx="180" cy="60" r="26" fill="#FFCD00"/>
+                                <path d="M 180,42 C 177,46 173,50 166,54 C 172,56 177,61 176,72 L 180,70 L 184,72 C 183,61 188,56 194,54 C 187,50 183,46 180,42 Z" fill="#000000"/>
+                                <circle cx="180" cy="52" r="3" fill="#FFFFFF"/>
+                                <rect x="168" y="72" width="24" height="4" fill="#CF142B" rx="2"/>
+                            </svg>
+                        </div>
+                        <div class="flag-content">
+                            <div class="flag-title"><span>South Australia (SA)</span><span>Est. 1904</span></div>
+                            <div class="flag-desc">Blue ensign with a golden disc showing the native Piping Shrike (white-backed magpie) perched with outstretched wings on a gum branch.</div>
+                        </div>
+                    </div>
+
+                    <div class="flag-card">
+                        <div class="flag-img-box">
+                            <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="240" height="120" fill="#00247D"/>
+                                <g><rect width="120" height="60" fill="#00247D"/>
+                                <line x1="0" y1="0" x2="120" y2="60" stroke="#FFFFFF" stroke-width="10"/><line x1="120" y1="0" x2="0" y2="60" stroke="#FFFFFF" stroke-width="10"/>
+                                <line x1="0" y1="0" x2="120" y2="60" stroke="#CF142B" stroke-width="3"/><line x1="120" y1="0" x2="0" y2="60" stroke="#CF142B" stroke-width="3"/>
+                                <line x1="60" y1="0" x2="60" y2="60" stroke="#FFFFFF" stroke-width="16"/><line x1="0" y1="30" x2="120" y2="30" stroke="#FFFFFF" stroke-width="16"/>
+                                <line x1="60" y1="0" x2="60" y2="60" stroke="#CF142B" stroke-width="10"/><line x1="0" y1="30" x2="120" y2="30" stroke="#CF142B" stroke-width="10"/></g>
+                                <circle cx="180" cy="60" r="26" fill="#FFFFFF"/>
+                                <path d="M 168,64 C 170,56 176,55 182,56 C 187,54 191,58 190,64 C 187,67 181,66 179,68 C 176,71 170,70 168,64 Z" fill="#C8102E"/>
+                                <circle cx="188" cy="56" r="3" fill="#C8102E"/>
+                            </svg>
+                        </div>
+                        <div class="flag-content">
+                            <div class="flag-title"><span>Tasmania (TAS)</span><span>Est. 1876</span></div>
+                            <div class="flag-desc">Blue ensign with a white disc featuring a red lion passant, symbolising historic loyalty to the British Crown and Tasmanian identity.</div>
+                        </div>
+                    </div>
+
+                    <div class="flag-card">
+                        <div class="flag-img-box">
+                            <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="80" height="120" fill="#00247D"/>
+                                <rect x="80" width="160" height="120" fill="#FFCD00"/>
+                                <polygon fill="#FFFFFF" points="40,16 41,19 44,19 42,21 43,24 40,22 37,24 38,21 36,19 39,19"/>
+                                <polygon fill="#FFFFFF" points="56,42 57,45 60,45 58,47 59,50 56,48 53,50 54,47 52,45 55,45"/>
+                                <polygon fill="#FFFFFF" points="24,52 25,55 28,55 26,57 27,60 24,58 21,60 22,57 20,55 23,55"/>
+                                <polygon fill="#FFFFFF" points="40,94 41,97 44,97 42,99 43,102 40,100 37,102 38,99 36,97 39,97"/>
+                                <polygon fill="#FFFFFF" points="46,65 47,68 50,68 48,70 49,73 46,71 43,73 44,70 42,68 45,68"/>
+                                <path d="M 148,46 L 172,46 L 172,70 C 172,80 160,88 160,88 C 160,88 148,80 148,70 Z" fill="#00247D" stroke="#000000" stroke-width="2"/>
+                                <circle cx="160" cy="62" r="6" fill="#FFFFFF"/>
+                                <path d="M 142,50 C 138,58 144,72 148,74" stroke="#000000" stroke-width="3" fill="none"/>
+                                <path d="M 178,50 C 182,58 176,72 172,74" stroke="#FFFFFF" stroke-width="3" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="flag-content">
+                            <div class="flag-title"><span>Australian Capital Territory (ACT)</span><span>Est. 1993</span></div>
+                            <div class="flag-desc">Canberra's flag uses the territory colours of blue and gold, featuring the Southern Cross and the City of Canberra Coat of Arms.</div>
+                        </div>
+                    </div>
+
+                    <div class="flag-card">
+                        <div class="flag-img-box">
+                            <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="80" height="120" fill="#000000"/>
+                                <rect x="80" width="160" height="120" fill="#C84B31"/>
+                                <polygon fill="#FFFFFF" points="40,16 41,19 44,19 42,21 43,24 40,22 37,24 38,21 36,19 39,19"/>
+                                <polygon fill="#FFFFFF" points="56,42 57,45 60,45 58,47 59,50 56,48 53,50 54,47 52,45 55,45"/>
+                                <polygon fill="#FFFFFF" points="24,52 25,55 28,55 26,57 27,60 24,58 21,60 22,57 20,55 23,55"/>
+                                <polygon fill="#FFFFFF" points="40,94 41,97 44,97 42,99 43,102 40,100 37,102 38,99 36,97 39,97"/>
+                                <polygon fill="#FFFFFF" points="46,65 47,68 50,68 48,70 49,73 46,71 43,73 44,70 42,68 45,68"/>
+                                <circle cx="160" cy="60" r="10" fill="#000000"/>
+                                <circle cx="160" cy="60" r="5" fill="#FFFFFF"/>
+                                <circle cx="160" cy="40" r="8" fill="#FFFFFF"/>
+                                <circle cx="178" cy="48" r="8" fill="#FFFFFF"/>
+                                <circle cx="180" cy="68" r="8" fill="#FFFFFF"/>
+                                <circle cx="168" cy="80" r="8" fill="#FFFFFF"/>
+                                <circle cx="152" cy="80" r="8" fill="#FFFFFF"/>
+                                <circle cx="140" cy="68" r="8" fill="#FFFFFF"/>
+                                <circle cx="142" cy="48" r="8" fill="#FFFFFF"/>
+                                <circle cx="160" cy="60" r="7" fill="#000000"/>
+                                <circle cx="160" cy="60" r="3" fill="#FFFFFF"/>
+                            </svg>
+                        </div>
+                        <div class="flag-content">
+                            <div class="flag-title"><span>Northern Territory (NT)</span><span>Est. 1978</span></div>
+                            <div class="flag-desc">Black and rich ochre-red fields representing the outback soil, featuring the Southern Cross and the 7-petalled Sturt's Desert Rose.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h3>Popular & iconic Australians</h3>
+                <p>Trailblazers in wildlife conservation, sports, performing arts, and global scientific innovation who shaped Australia and inspired the world:</p>
+
+                <div class="persons-grid">
+                    <div class="person-card">
+                        <div class="person-name">Steve Irwin (1962–2006)</div>
+                        <div class="person-role">The Crocodile Hunter & conservationist</div>
+                        <div class="person-desc">Internationally adored wildlife champion and educator whose infectious energy, love for apex predators, and phrase <em>"Crikey!"</em> turned millions of people across the globe into passionate protectors of the natural world.</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">Cathy Freeman OAM</div>
+                        <div class="person-role">Olympic gold champion & cultural icon</div>
+                        <div class="person-desc">Proud Kuku Yalanji sprinter who lit the Sydney 2000 Olympic cauldron and stormed to 400m gold in front of 112,000 cheering fans. Her victory lap holding both the Australian and Aboriginal flags became a landmark symbol of national unity.</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">Sir Donald Bradman (1908–2001)</div>
+                        <div class="person-role">"The Don" — cricket's greatest</div>
+                        <div class="person-desc">Universally recognised as the greatest batsman in cricket history. Bradman finished his Test career with an astounding average of <strong>99.94</strong> — a statistical feat considered the most dominant record in any world sport.</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">Margot Robbie</div>
+                        <div class="person-role">Hollywood powerhouse & producer</div>
+                        <div class="person-desc">Rising from regional Queensland to global fame, Robbie has emerged as one of cinema's most formidable talents, starring in and producing worldwide blockbusters like <em>Barbie</em>, <em>I, Tonya</em>, and <em>The Wolf of Wall Street</em>.</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">Chris Hemsworth & Hugh Jackman</div>
+                        <div class="person-role">Beloved actors & global ambassadors</div>
+                        <div class="person-desc">World-famous for embodying iconic superheroes Thor and Wolverine, both Hemsworth and Jackman are renowned for their generous charity work, Broadway stage mastery, and down-to-earth Aussie humour.</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">AC/DC & Kylie Minogue</div>
+                        <div class="person-role">Rock & pop pioneers</div>
+                        <div class="person-desc">AC/DC (formed in Sydney) defined hard rock with over 200 million records sold (<em>Back in Black</em>). Melbourne-born Kylie Minogue has dominated global pop music across five consecutive decades, proving Australia's musical prowess.</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">Howard Florey & Fiona Wood</div>
+                        <div class="person-role">World-saving medical innovators</div>
+                        <div class="person-desc">Adelaide-born Nobel Laureate Howard Florey co-developed penicillin, saving an estimated <strong>200 million lives</strong>. Western Australian surgeon Fiona Wood invented patented "spray-on skin" for severe burn victims worldwide.</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">Banjo Paterson (1864–1941)</div>
+                        <div class="person-role">Bush poet & cultural bard</div>
+                        <div class="person-desc">Australia's beloved bush poet who penned the unofficial national anthem <em>"Waltzing Matilda"</em> and the legendary frontier ballad <em>"The Man from Snowy River"</em>, capturing the timeless spirit of the Australian outback.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="detail-card">
+                <h3>Geographic snapshot</h3>
+                <div class="fact-row">
+                    <div><strong>Official name</strong><p>Commonwealth of Australia</p></div>
+                    <div><strong>National capital</strong><p>Canberra (ACT)</p></div>
+                    <div><strong>Largest cities</strong><p>Sydney, Melbourne, Brisbane, Perth, Adelaide</p></div>
+                    <div><strong>Highest peak</strong><p>Mount Kosciuszko (2,228 m / 7,310 ft) in NSW</p></div>
+                    <div><strong>Longest river</strong><p>Murray River (2,508 km)</p></div>
+                    <div><strong>National currency</strong><p>Australian Dollar (AUD, $)</p></div>
+                    <div><strong>National floral emblem</strong><p>Golden Wattle (<em>Acacia pycnantha</em>)</p></div>
+                    <div><strong>National colours</strong><p>Green and gold</p></div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h3>Did you know?</h3>
+                <ul>
+                    <li><strong>More beaches than days:</strong> Australia has 10,685 beaches. If you visited a new one every single day, it would take you more than 29 years.</li>
+                    <li><strong>Living giant:</strong> The Great Barrier Reef is the largest living structure on Earth, stretching over 2,300 km and visible from space.</li>
+                    <li><strong>The Dingo Fence:</strong> Stretches 5,614 km across South Australia, NSW, and Queensland — making it longer than the Great Wall of China.</li>
+                    <li><strong>Polymer banknotes:</strong> Australia invented the world's first waterproof polymer banknotes in 1988, now used by over 30 countries.</li>
+                    <li><strong>Unique wildlife:</strong> Over 80% of Australia's mammals, reptiles, and frogs are endemic — meaning you can't find wild kangaroos, koalas, platypuses, or wombats anywhere else on the planet.</li>
+                </ul>
+            </div>
+
+            <div class="detail-card highlight-card">
+                <h4 style="margin-bottom: 0.5rem;">Ready to explore?</h4>
+                <p style="font-size: 0.9rem; margin-bottom: 1.25rem;">Check out our curated secret spots or read our free city guides to start planning your adventure.</p>
+                <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                    <button class="btn btn-full" onclick="navigateTo('guide-melbourne')">Free Melbourne guide</button>
+                    <button class="btn btn-outline btn-full" onclick="navigateTo('secrets')">Browse secret spots</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Checkout Modal -->
+<div id="checkoutModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h3 id="modalTitle" style="margin-bottom: 0.5rem;">Guide Title</h3>
+        <p id="modalPrice" class="price-tag" style="margin-bottom: 1.25rem;">$0.00 AUD</p>
+        <form onsubmit="handlePurchase(event)">
+            <div style="margin-bottom: 1.25rem;">
+                <label>Email address for delivery</label>
+                <input type="email" required placeholder="yourname@domain.com">
+            </div>
+            <button type="submit" class="btn btn-full">Complete checkout</button>
+        </form>
+        <p id="purchaseSuccess" style="display:none; color: var(--accent); margin-top: 1.25rem; text-align: center; font-weight: 500;">
+            Thank you — your guide download link has been emailed.
+        </p>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2026 pulpo-australio. All rights reserved.</p>
+</footer>
+
+<script>
+    function navigateTo(pageId) {
+        document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
+        const selectedPage = document.getElementById(pageId);
+        if (selectedPage) selectedPage.classList.add('active');
+
+        document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+        const activeNav = document.getElementById(`nav-${pageId}`);
+        if (activeNav) {
+            activeNav.classList.add('active');
+        } else if (pageId.startsWith('guide-') || pageId.startsWith('book-')) {
+            const shopNav = document.getElementById('nav-shop');
+            if (shopNav) shopNav.classList.add('active');
+        } else if (pageId.startsWith('spot-')) {
+            const secretsNav = document.getElementById('nav-secrets');
+            if (secretsNav) secretsNav.classList.add('active');
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openModal(title, price) {
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalPrice').innerText = price;
+        const submitBtn = document.querySelector('#checkoutModal button[type="submit"]');
+        if (submitBtn) {
+            if (price.toLowerCase().includes('free') || price.includes('0.00')) {
+                submitBtn.innerText = 'Get free guide access';
+            } else {
+                submitBtn.innerText = 'Complete checkout';
+            }
+        }
+        document.getElementById('purchaseSuccess').style.display = 'none';
+        document.getElementById('checkoutModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('checkoutModal').style.display = 'none';
+    }
+
+    function handlePurchase(event) {
+        event.preventDefault();
+        const price = document.getElementById('modalPrice').innerText;
+        const successEl = document.getElementById('purchaseSuccess');
+        if (price.toLowerCase().includes('free') || price.includes('0.00')) {
+            successEl.innerHTML = 'Success — your free Melbourne travel guide has been unlocked and sent to your email.';
+        } else {
+            successEl.innerHTML = 'Thank you — your guide download link has been emailed.';
+        }
+        successEl.style.display = 'block';
+    }
+</script>
+</body>
+</html>

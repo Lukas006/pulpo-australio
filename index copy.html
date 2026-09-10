@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pulpo-australio | Secret Spots & Uncharted Guides</title>
+    <style>
+
+        .map-container {
+    width: 100%;
+    height: 320px;
+    border-radius: calc(var(--radius) - 4px);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    overflow: hidden;
+    margin-top: 1rem;
+    position: relative;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    background: #0A0E17;
+}
+
+/* Custom dark mode filter & glow effect for embedded maps */
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(90%);
+    transition: var(--transition);
+}
+
+.map-container:hover iframe {
+    filter: invert(90%) hue-rotate(180deg) brightness(105%) contrast(100%);
+}
+        
+        :root {
+            --primary: #8A2BE2;
+            --primary-hover: #7B1FA2;
+            --accent: #00E5FF;
+            --bg-dark: #0A0E17;
+            --card-bg: #141C2E;
+            --text-main: #F1F5F9;
+            --text-muted: #94A3B8;
+            --glass: rgba(20, 28, 46, 0.85);
+            --radius: 16px;
+            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.5px;
+            cursor: pointer;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.75rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-main);
+            background: rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+        }
+
+        .page-content {
+            display: none;
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2.5rem 2rem;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .page-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+            position: relative;
+            background: linear-gradient(180deg, rgba(10, 14, 23, 0.4) 0%, var(--bg-dark) 100%), 
+                        url('hero.jpg') center/cover no-repeat;
+            padding: 5rem 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+        }
+
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 650px; margin: 0 auto 2rem; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: var(--text-main);
+            padding: 0.85rem 1.75rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+        }
+
+        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
+
+        .btn-accent {
+            background: var(--accent);
+            color: #0A0E17;
+            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+        }
+
+        .btn-accent:hover { background: #00B8D4; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 229, 255, 0.3);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+            background-color: #1a233a;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .card:hover img { transform: scale(1.05); }
+
+        .card-body {
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-body h3 { font-size: 1.35rem; margin-bottom: 0.5rem; }
+        .card-body p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem; flex: 1; }
+
+        .price-tag {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--accent);
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            width: fit-content;
+        }
+
+        .badge-secret {
+            background: rgba(138, 43, 226, 0.2);
+            color: #D8B4FE;
+        }
+
+        .badge-free {
+            background: rgba(0, 229, 255, 0.2);
+            color: var(--accent);
+            border: 1px solid rgba(0, 229, 255, 0.4);
+        }
+
+        .sidenote-box {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.15) 0%, rgba(20, 28, 46, 0.8) 100%);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            margin: 1.75rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .things-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .thing-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 12px;
+            padding: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .thing-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(0, 229, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .thing-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .thing-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .free-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(0, 229, 255, 0.15);
+            color: var(--accent);
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .detail-header { margin-bottom: 2rem; }
+
+        .detail-hero-img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background-color: #1a233a;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .detail-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            border-radius: calc(var(--radius) - 4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 14, 23, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            max-width: 550px;
+            width: 100%;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem; right: 1.5rem;
+            font-size: 1.8rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        footer {
+            background: #06090F;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 1rem; }
+            .hero h1 { font-size: 2.2rem; }
+            .detail-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a class="logo" onclick="navigateTo('home')">🐙 pulpo-<span>australio</span></a>
+            <ul class="nav-links">
+                <li><a id="nav-home" class="active" onclick="navigateTo('home')">Home</a></li>
+                <li><a id="nav-secrets" onclick="navigateTo('secrets')">Secret Spots 🔒</a></li>
+                <li><a id="nav-shop" onclick="navigateTo('shop')">Travel Guides 📚</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page 1: Home -->
+    <main id="home" class="page-content active">
+        <section class="hero">
+            <h1>Uncharted Australia Awaits</h1>
+            <p>Curated secret locations, off-grid adventure itineraries, and downloadable travel guides tailored by local experts.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <button class="btn" onclick="navigateTo('secrets')">Explore Secret Spots</button>
+                <button class="btn btn-accent" onclick="navigateTo('shop')">Shop Digital Guides</button>
+            </div>
+        </section>
+
+        <h2>Popular Secret Locations</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="lordhowe.jpg" alt="Lord Howe Island">
+                </div>
+                <div class="card-body">
+                    <span class="badge badge-secret">NSW Secret</span>
+                    <h3>Lord Howe Island</h3>
+                    <p>A secluded volcanic paradise with restricted visitor permits.</p>
+                    <button class="btn btn-accent" onclick="navigateTo('spot-lordhowe')">Explore Spot →</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="karijini.jpg" alt="Karijini Gorges">
+                </div>
+                <div class="card-body">
+                    <span class="badge badge-secret">WA Secret</span>
+                    <h3>Karijini Gorges</h3>
+                    <p>Ancient chasms, natural emerald pools, and hidden swimming holes.</p>
+                    <button class="btn btn-accent" onclick="navigateTo('spot-karijini')">Explore Spot →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Free Guide Banner -->
+        <div style="margin-top: 3.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+                <div>
+                    <span class="badge badge-free">Free Access Edition</span>
+                    <h2>Featured City Travel Guide</h2>
+                </div>
+                <button class="btn btn-accent" onclick="navigateTo('guide-melbourne')">Open Free Melbourne Guide →</button>
+            </div>
+            <div class="card" style="display: flex; flex-direction: row; flex-wrap: wrap; border: 1px solid rgba(0, 229, 255, 0.35); background: linear-gradient(135deg, rgba(20, 28, 46, 0.95) 0%, rgba(138, 43, 226, 0.15) 100%);">
+                <div class="card-img-wrapper" style="flex: 1 1 340px; height: auto; min-height: 240px;">
+                    <img src="melbourne.jpg" alt="Melbourne City Skyline">
+                </div>
+                <div class="card-body" style="flex: 2 1 340px; padding: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                        <span class="free-indicator">✨ 100% Free Access</span>
+                        <span style="color: var(--accent); font-weight: 700; font-size: 0.9rem;">Victoria, Australia</span>
+                    </div>
+                    <h3 style="font-size: 1.6rem; margin-bottom: 0.75rem;">Melbourne: Culture, Coffee & Hidden Laneways</h3>
+                    <p style="color: var(--text-muted); font-size: 0.98rem; margin-bottom: 1.5rem; line-height: 1.6;">
+                        Explore Australia's cultural capital without spending a cent on guides. From graffiti-splashed laneways and iconic third-wave coffee roasters to fairy penguins at St Kilda, lush botanic gardens, and the electric Albert Park Grand Prix circuit — here is your curated insider itinerary.
+                    </p>
+                    <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: auto;">
+                        <button class="btn btn-accent" onclick="navigateTo('guide-melbourne')">Read Free Guide Online →</button>
+                        <button class="btn" style="background: rgba(255, 255, 255, 0.08); box-shadow: none;" onclick="openModal('Melbourne: Culture, Coffee & Hidden Laneways (Free Guide)', 'FREE ACCESS - $0.00')">Download Free PDF 📥</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Page 2: Secret Spots Hub -->
+    <main id="secrets" class="page-content">
+        <h2>Secret Spots Directory</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Click any spot below to access its individual guide page and coordinates.</p>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="lordhowe.jpg" alt="Lord Howe Island">
+                </div>
+                <div class="card-body">
+                    <span class="badge badge-secret">NSW Secret</span>
+                    <h3>Lord Howe Island</h3>
+                    <p>A secluded volcanic paradise with restricted visitor permits.</p>
+                    <button class="btn btn-accent" onclick="navigateTo('spot-lordhowe')">Read Full Guide →</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="karijini.jpg" alt="Karijini Gorges">
+                </div>
+                <div class="card-body">
+                    <span class="badge badge-secret">WA Secret</span>
+                    <h3>Karijini Gorges</h3>
+                    <p>Ancient chasms, natural emerald pools, and hidden swimming holes.</p>
+                    <button class="btn btn-accent" onclick="navigateTo('spot-karijini')">Read Full Guide →</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="hinchinbrook.jpg" alt="Hinchinbrook Island">
+                </div>
+                <div class="card-body">
+                    <span class="badge badge-secret">QLD Secret</span>
+                    <h3>Hinchinbrook Island</h3>
+                    <p>Uninhabited island national park with rugged wilderness trails.</p>
+                    <button class="btn btn-accent" onclick="navigateTo('spot-hinchinbrook')">Read Full Guide →</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Page 3: Shop Hub -->
+    <main id="shop" class="page-content">
+        <h2>pulpo-australio Travel Guides & Bookshop</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Select a guidebook to view region maps, chapter breakdowns, and offline access details.</p>
+
+        <div class="grid">
+            <!-- Free Guide: Melbourne -->
+            <div class="card" style="border: 1px solid rgba(0, 229, 255, 0.4); position: relative;">
+                <div style="position: absolute; top: 12px; right: 12px; z-index: 2; background: #00E5FF; color: #0A0E17; font-size: 0.72rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;">Free Guide</div>
+                <div class="card-img-wrapper">
+                    <img src="melbourne.jpg" alt="Melbourne Travel Guide">
+                </div>
+                <div class="card-body">
+                    <span class="badge badge-free">Free Digital Edition</span>
+                    <h3>Melbourne: Culture & Hidden Spots</h3>
+                    <p>Secret Spots, world-famous spots, Markets and Melbourne Grand Prix circuit.</p>
+                    <div class="price-tag" style="color: var(--accent);">FREE <span style="font-size: 0.85rem; color: var(--text-muted); text-decoration: line-through; font-weight: normal; margin-left: 0.5rem;">$19.99 AUD</span></div>
+                    <button class="btn btn-accent" onclick="navigateTo('guide-melbourne')">Access Free Guide →</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="kimberley.jpg" alt="The Kimberley Guide">
+                </div>
+                <div class="card-body">
+                    <span class="badge">E-Book + GPX</span>
+                    <h3>The Kimberley Unlocked</h3>
+                    <p>4WD trail maps, secret tidal waterholes, and seasonal itineraries.</p>
+                    <div class="price-tag">$24.99 AUD</div>
+                    <button class="btn" onclick="navigateTo('book-kimberley')">Book Details & Preview →</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="tasmania.jpg" alt="Tasmania Guide">
+                </div>
+                <div class="card-body">
+                    <span class="badge">E-Book + GPX</span>
+                    <h3>Tasmania Wild & Unfiltered</h3>
+                    <p>Comprehensive 14-day loop covering secret beaches and alpine walks.</p>
+                    <div class="price-tag">$19.99 AUD</div>
+                    <button class="btn" onclick="navigateTo('book-tasmania')">Book Details & Preview →</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- SUBPAGE: LORD HOWE ISLAND -->
+    <main id="spot-lordhowe" class="page-content">
+        <a class="back-btn" onclick="navigateTo('secrets')">← Back to Secret Spots</a>
+        <div class="detail-header">
+            <span class="badge badge-secret">NSW Secret Spot</span>
+            <h1>Lord Howe Island Secrets</h1>
+        </div>
+        <img src="lordhowe.jpg" class="detail-hero-img" alt="Lord Howe Island">
+        <div class="detail-grid">
+            <div>
+                <div class="detail-card">
+                    <h3>About This Spot</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                        Situated in the Tasman Sea, Lord Howe limits tourist numbers to just 400 at any time. It boasts world-class snorkeling around the southernmost coral reef on Earth.
+                    </p>
+                    <h3>Pulpo Insider Tips</h3>
+                    <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
+                        <li>Hike Mt. Gower with a mandatory local guide to see ancient cloud forests.</li>
+                        <li>Hand-feed wild kingfish right at Ned's Beach at low tide.</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>Location Map</h3>
+                    <div class="map-container">
+                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=159.0400%2C-31.5800%2C159.1200%2C-31.5000&amp;layer=mapnik&amp;marker=-31.5500%2C159.0833"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="detail-card">
+                    <h3>Location Specs</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;"><strong>Best Season:</strong> Sep – May</p>
+                    <p style="color: var(--text-muted);"><strong>Permit Required:</strong> Yes (Flight capped)</p>
+                    <p style="color: var(--text-muted);"><strong>Cell Service:</strong> Minimal / No 5G</p>
+                    <p style="color: var(--text-muted);"><strong>Coordinates:</strong> 31.5500° S, 159.0833° E</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- SUBPAGE: KARIJINI -->
+    <main id="spot-karijini" class="page-content">
+        <a class="back-btn" onclick="navigateTo('secrets')">← Back to Secret Spots</a>
+        <div class="detail-header">
+            <span class="badge badge-secret">WA Secret Spot</span>
+            <h1>Karijini National Park Gorges</h1>
+        </div>
+        <img src="karijini.jpg" class="detail-hero-img" alt="Karijini Gorges">
+        <div class="detail-grid">
+            <div>
+                <div class="detail-card">
+                    <h3>About This Spot</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                        2.5 billion years in the making, Karijini offers spider-walks through layered red gorges leading to crystal-clear natural swimming pools.
+                    </p>
+                    <h3>Pulpo Insider Tips</h3>
+                    <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
+                        <li>Visit Hancock Gorge early in the morning to beat tour groups.</li>
+                        <li>Bring sturdy aquatic shoes for slippery canyon walks.</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>Location Map</h3>
+                    <div class="map-container">
+                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=118.2000%2C-22.6000%2C118.7000%2C-22.2000&amp;layer=mapnik&amp;marker=-22.4869%2C118.4673"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="detail-card">
+                    <h3>Location Specs</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;"><strong>Best Season:</strong> May – Sep</p>
+                    <p style="color: var(--text-muted);"><strong>Vehicle Access:</strong> 4WD Recommended</p>
+                    <p style="color: var(--text-muted);"><strong>Coordinates:</strong> 22.4869° S, 118.4673° E</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- SUBPAGE: HINCHINBROOK -->
+    <main id="spot-hinchinbrook" class="page-content">
+        <a class="back-btn" onclick="navigateTo('secrets')">← Back to Secret Spots</a>
+        <div class="detail-header">
+            <span class="badge badge-secret">QLD Secret Spot</span>
+            <h1>Hinchinbrook Island</h1>
+        </div>
+        <img src="hinchinbrook.jpg" class="detail-hero-img" alt="Hinchinbrook Island">
+        <div class="detail-grid">
+            <div>
+                <div class="detail-card">
+                    <h3>About This Spot</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                        An entire uninhabited island designated as a national park. Home to Nina Peak and the iconic cliffside infinity pool at Zoe Falls.
+                    </p>
+                    <h3>Pulpo Insider Tips</h3>
+                    <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
+                        <li>Book Thorsborne Trail camping permits up to 6 months in advance.</li>
+                        <li>Always carry a crocodile safety strategy near tidal creeks.</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>Location Map</h3>
+                    <div class="map-container">
+                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=146.0500%2C-18.5000%2C146.4000%2C-18.1500&amp;layer=mapnik&amp;marker=-18.3620%2C146.2360"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="detail-card">
+                    <h3>Location Specs</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;"><strong>Best Season:</strong> Apr – Oct</p>
+                    <p style="color: var(--text-muted);"><strong>Hiking Permit:</strong> Required</p>
+                    <p style="color: var(--text-muted);"><strong>Coordinates:</strong> 18.3620° S, 146.2360° E</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- SUBPAGE: BOOK - KIMBERLEY -->
+    <main id="book-kimberley" class="page-content">
+        <a class="back-btn" onclick="navigateTo('shop')">← Back to Bookshop</a>
+        <div class="detail-header">
+            <span class="badge">E-Book & GPX Tracks</span>
+            <h1>The Kimberley Unlocked Guide</h1>
+        </div>
+        <img src="kimberley.jpg" class="detail-hero-img" alt="The Kimberley Guide">
+        <div class="detail-grid">
+            <div>
+                <div class="detail-card">
+                    <h3>What’s Inside This Guide</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                        A 120-page comprehensive digital manual detailing the Gibb River Road, secret waterhole coordinates, and local station contact lists.
+                    </p>
+                    <h3>Included Digital Files</h3>
+                    <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
+                        <li>High-resolution offline PDF guide book.</li>
+                        <li>GPX files compatible with Gaia GPS and Avenza Maps.</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>Region Coverage Map</h3>
+                    <div class="map-container">
+                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=123.0000%2C-19.0000%2C129.0000%2C-13.5000&amp;layer=mapnik&amp;marker=-17.4914%2C124.5326"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="detail-card">
+                    <div class="price-tag">$24.99 AUD</div>
+                    <button class="btn btn-accent" style="width: 100%; justify-content: center;" onclick="openModal('The Kimberley Unlocked', '$24.99 AUD')">Instant Download Buy</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- SUBPAGE: BOOK - TASMANIA -->
+    <main id="book-tasmania" class="page-content">
+        <a class="back-btn" onclick="navigateTo('shop')">← Back to Bookshop</a>
+        <div class="detail-header">
+            <span class="badge">E-Book & GPX Tracks</span>
+            <h1>Tasmania Wild & Unfiltered</h1>
+        </div>
+        <img src="tasmania.jpg" class="detail-hero-img" alt="Tasmania Guide">
+        <div class="detail-grid">
+            <div>
+                <div class="detail-card">
+                    <h3>What’s Inside This Guide</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                        Uncover off-grid boutique stays, secret coastal penguin rookeries, and bypass routes for Cradle Mountain.
+                    </p>
+                    <h3>Included Digital Files</h3>
+                    <ul style="color: var(--text-muted); margin-left: 1.2rem; margin-top: 0.5rem;">
+                        <li>High-resolution offline PDF guide book.</li>
+                        <li>GPX files for 14 iconic day hikes.</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>Region Coverage Map</h3>
+                    <div class="map-container">
+                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=144.0000%2C-43.8000%2C148.5000%2C-40.0000&amp;layer=mapnik&amp;marker=-42.0000%2C147.0000"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="detail-card">
+                    <div class="price-tag">$19.99 AUD</div>
+                    <button class="btn btn-accent" style="width: 100%; justify-content: center;" onclick="openModal('Tasmania Wild & Unfiltered', '$19.99 AUD')">Instant Download Buy</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- SUBPAGE: MELBOURNE FREE TRAVEL GUIDE -->
+    <main id="guide-melbourne" class="page-content">
+        <a class="back-btn" onclick="navigateTo('shop')">← Back to Travel Guides</a>
+        <div class="detail-header">
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                <span class="badge badge-free">Free Access Edition</span>
+                <span class="badge">VIC City Guide</span>
+                <span class="badge badge-secret">Local Insider Tips</span>
+            </div>
+            <h1>Melbourne: Culture, Shopping & Hidden Spots</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 800px; margin-top: 0.5rem;">
+                Australia’s cultur and secret Spots. A comprehensive free guide to hidden Spots you can check out, markets.
+            </p>
+        </div>
+
+        <img src="melbourne.jpg" class="detail-hero-img" alt="Melbourne Skyline and Yarra River">
+
+        <div class="detail-grid">
+            <div>
+                <!-- About Melbourne Overview -->
+                <div class="detail-card">
+                    <h3>About Melbourne</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.7;">
+                        Constantly celebrated as one of the world's most beautiful cities, Melbourne is known for its sports, coffe and cultureal capital. Famous for its specialty coffee, architecture, and thriving live music and sports scenes, it’s a city designed for curious walkers.
+                    </p>
+                </div>
+
+                <!-- Top Things to Do -->
+                <div class="detail-card">
+                    <h3>Top Things to Do in Melbourne</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.25rem; margin-bottom: 1.25rem;">
+                        A selection of the best experiences across the city | accessible easily on foot and by tram:
+                    </p>
+
+                    <ul class="things-list">
+                        <li class="thing-item">
+                            <div class="thing-title"> 1. Explore the Iconic Laneways & Street Art</div>
+                            <div class="thing-desc">
+                                Melbourne’s soul lives in the labyrinth of bluestone alleys. Wander through <strong>Hosier Lane</strong> and <strong>AC/DC Lane</strong> to experience changing masterpieces and stencils by world-class street artists. Slip into <strong>Centre Place</strong> and <strong>Degraves Street</strong> for  espresso bars, and marvel at the 19th-century mosaic floors of the historic <strong>Block Arcade</strong>.
+                            </div>
+                        </li>
+
+                        <li class="thing-item">
+                            <div class="thing-title"> 2. Immerse Yourself in the World's Best Coffee Culture</div>
+                            <div class="thing-desc">
+                                Melbourne considers specialty coffee an art form. Skip the fast food cofee chains and sample local roasteries. Order a <em>"Magic"</em> (a Melbourne original: double ristretto topped with velvety steamed milk) at CBD icons like <strong>Patricia Coffee Brewers</strong> or <strong>Brother Baba Budan</strong>, or browse the bohemian roasteries along Brunswick Street in <strong>Fitzroy</strong>.
+                            </div>
+                        </li>
+
+                        <li class="thing-item">
+                            <div class="thing-title"> 3. Stroll the Royal Botanic Gardens</div>
+                            <div class="thing-desc">
+                                Covering 38 hectares beside the Yarra River, these lush heritage gardens feature over 8,500 plant species from around the globe. Explore the arid Guilfoyle Volcano or rest beside the serene Ornamental Lake.
+                            </div>
+                        </li>
+
+                        <li class="thing-item">
+                            <div class="thing-title"> 4. Feast at the Historic Queen Victoria Market</div>
+                            <div class="thing-desc">
+                                Operating since 1878, "Queen Vic" is the culinary heart and soul of Melbourne. Wander through the heritage Deli Hall for fresh Coffin Bay oysters, regional farmhouse cheeses, and artisan charcuterie, and get hot jam doughnuts fresh from the vintage 1950s food van outside.
+                            </div>
+                        </li>
+
+                        <li class="thing-item">
+                            <div class="thing-title"> 5. Watch Fairy Penguins at St Kilda Beach & Pier</div>
+                            <div class="thing-desc">
+                                Jump on the Route 96 or 16 tram to coastal St Kilda. Walk along the seaside pier around twilight to spot wild Little Blue Penguins. After that explore the shops along Acland Street and do a walk past the bright grin of historic <strong>Luna Park</strong>.
+                            </div>
+                        </li>
+
+                        <li class="thing-item">
+                            <div class="thing-title"> 6. Explore the Arts Precinct & Southbank Promenade</div>
+                            <div class="thing-desc">
+                                Cross the Princes Bridge to Southbank. Discover the <strong>National Gallery of Victoria (NGV)</strong> — Australia’s oldest and most visited public gallery, featuring completely <em>free general admission</em> to its permanent collections. In the evening, enjoy the Yarra River promenade with waterfront dining, city skyline reflections, and the famous Crown gas brigade fire displays.
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- Formula 1 Side Note -->
+                    <div class="sidenote-box">
+                        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem;">
+                            <span style="font-size: 1.4rem;">🏎️</span>
+                            <h4 style="color: var(--accent); margin: 0; font-size: 1.05rem; letter-spacing: 0.5px; text-transform: uppercase;">Side Note: Formula 1 at Albert Park</h4>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 0.94rem; line-height: 1.65; margin: 0;">
+                            If you're a motorsport enthusiast, make a quick detour to <strong>Albert Park Lake</strong>, just 3 km south of the CBD. For most of the year, it’s a calm, picturesque public park filled with black swans, walking trails, and rowers against the backdrop of the Melbourne skyline. But every autumn, its surrounding lakeside roads transform into the high-octane <strong>Albert Park Grand Prix Circuit</strong> for the Formula 1 Australian Grand Prix! Outside of the official race preparation windows, you can freely walk, run, or cycle along the exact circuit tarmac, past the pit lane and through the fast corners driven by the world's top drivers.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Location Map -->
+                <div class="detail-card">
+                    <h3>Melbourne City & Albert Park Map</h3>
+                    <div class="map-container">
+                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=144.9200%2C-37.8600%2C145.0100%2C-37.8000&amp;layer=mapnik&amp;marker=-37.8136%2C144.9631"></iframe>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.75rem;">
+                        📍 Highlights: Melbourne CBD, Southbank Arts Precinct, Royal Botanic Gardens, and Albert Park Grand Prix Circuit.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Column / Sidebar -->
+            <div>
+                <!-- Free Access Card -->
+                <div class="detail-card" style="border: 1px solid rgba(0, 229, 255, 0.4); background: linear-gradient(180deg, rgba(20, 28, 46, 0.9) 0%, rgba(0, 229, 255, 0.05) 100%);">
+                    <span class="free-indicator" style="margin-bottom: 0.75rem;">🌟 Complimentary Edition</span>
+                    <div class="price-tag" style="color: var(--accent); margin-bottom: 0.25rem;">
+                        FREE <span style="font-size: 0.85rem; color: var(--text-muted); text-decoration: line-through; font-weight: normal; margin-left: 0.4rem;">$19.99 AUD</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+                        Full online guide with zero paywalls. You can read it directly here or download an offline PDF copy for your phone.
+                    </p>
+                    <button class="btn btn-accent" style="width: 100%; justify-content: center; margin-bottom: 0.75rem;" onclick="openModal('Melbourne: Culture, Coffee & Hidden Laneways (Free Guide)', 'FREE ACCESS - $0.00')">
+                        Download Free PDF Copy 📥
+                    </button>
+                    <button class="btn" style="width: 100%; justify-content: center; background: rgba(255,255,255,0.06); box-shadow: none;" onclick="window.print()">
+                        Print / Save Guide 🖨️
+                    </button>
+                </div>
+
+                <!-- Essential City Specs -->
+                <div class="detail-card">
+                    <h3>Essential City Specs</h3>
+                    <div style="margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div>
+                            <strong style="color: var(--text-main); font-size: 0.9rem;">State & Country:</strong>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">Victoria (VIC), Australia</p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--text-main); font-size: 0.9rem;">Best Season:</strong>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">October – April (Spring / Summer / Autumn)</p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--accent); font-size: 0.9rem;">⭐ Free Tram Zone:</strong>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">All trams within the Melbourne CBD grid and Docklands are 100% free of charge! No ticket or Myki card needed.</p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--text-main); font-size: 0.9rem;">Getting Around:</strong>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">High walkability, extensive tram network, bike share paths along the Yarra.</p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--text-main); font-size: 0.9rem;">Coordinates:</strong>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">37.8136° S, 144.9631° E</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Local Insider Tips -->
+                <div class="detail-card">
+                    <h3>Pulpo Insider Tips</h3>
+                    <ul style="color: var(--text-muted); font-size: 0.9rem; margin-left: 1.2rem; margin-top: 0.5rem; line-height: 1.6;">
+                        <li><strong>Four Seasons in One Day:</strong> Always pack a light jacket and compact umbrella; Melbourne weather can shift rapidly.</li>
+                        <li><strong>Rooftop Views:</strong> Try Curtin House (Rooftop Bar on Swanston St) or Naked for Satan in Fitzroy for panoramic skyline vistas.</li>
+                        <li><strong>Free City Circle Tram (Route 35):</strong> Ride the heritage maroon tram around the city loop for free sightseeing with audio commentary.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle" style="margin-bottom: 0.5rem;">Guide Title</h3>
+            <p id="modalPrice" class="price-tag">$0.00 AUD</p>
+            <form onsubmit="handlePurchase(event)">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display:block; margin-bottom: 0.3rem; font-weight:600;">Email Address for Delivery</label>
+                    <input type="email" required placeholder="yourname@domain.com" style="width:100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: #0A0E17; color: #fff;">
+                </div>
+                <button type="submit" class="btn btn-accent" style="width: 100%; justify-content: center;">Complete Checkout →</button>
+            </form>
+            <p id="purchaseSuccess" style="display:none; color: var(--accent); margin-top: 1rem; text-align: center; font-weight: 600;">
+                🎉 Thank you! Your guide download link has been emailed.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 pulpo-australio. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) selectedPage.classList.add('active');
+
+            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+            const activeNav = document.getElementById(`nav-${pageId}`);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            } else if (pageId.startsWith('guide-') || pageId.startsWith('book-')) {
+                const shopNav = document.getElementById('nav-shop');
+                if (shopNav) shopNav.classList.add('active');
+            } else if (pageId.startsWith('spot-')) {
+                const secretsNav = document.getElementById('nav-secrets');
+                if (secretsNav) secretsNav.classList.add('active');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openModal(title, price) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalPrice').innerText = price;
+            const submitBtn = document.querySelector('#checkoutModal button[type="submit"]');
+            if (submitBtn) {
+                if (price.toLowerCase().includes('free') || price.includes('0.00')) {
+                    submitBtn.innerText = 'Get Free Guide Access →';
+                } else {
+                    submitBtn.innerText = 'Complete Checkout →';
+                }
+            }
+            document.getElementById('purchaseSuccess').style.display = 'none';
+            document.getElementById('checkoutModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        function handlePurchase(event) {
+            event.preventDefault();
+            const price = document.getElementById('modalPrice').innerText;
+            const successEl = document.getElementById('purchaseSuccess');
+            if (price.toLowerCase().includes('free') || price.includes('0.00')) {
+                successEl.innerHTML = '🎉 Success! Your free Melbourne travel guide has been unlocked and sent to your email.';
+            } else {
+                successEl.innerHTML = '🎉 Thank you! Your guide download link has been emailed.';
+            }
+            successEl.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
